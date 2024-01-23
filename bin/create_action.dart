@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:dev_pilot/src/constants/app_constants.dart';
-import 'package:dev_pilot/src/services/directory_service.dart';
-import 'package:dev_pilot/src/services/input_service.dart';
-import 'package:dev_pilot/src/services/script_service.dart';
-import 'package:dev_pilot/src/validators/validator.dart';
+import 'package:enigma/src/constants/app_constants.dart';
+import 'package:enigma/src/services/directory_service.dart';
+import 'package:enigma/src/services/input_service.dart';
+import 'package:enigma/src/services/script_service.dart';
+import 'package:enigma/src/validators/validator.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 import '../lib/src/services/app_bundle_util.dart';

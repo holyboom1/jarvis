@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:dev_pilot/src/constants/app_constants.dart';
+import 'package:enigma/src/constants/app_constants.dart';
 
 import 'add_module_action.dart';
 import 'create_action.dart';

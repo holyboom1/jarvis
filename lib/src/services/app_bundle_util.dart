@@ -1,5 +1,5 @@
-import 'package:dev_pilot/src/constants/app_constants.dart';
-import 'package:dev_pilot/src/services/file_service.dart';
+import 'package:enigma/src/constants/app_constants.dart';
+import 'package:enigma/src/services/file_service.dart';
 
 class AppRenameUtil {
   static const String _androidBundleKey = '{android_bundle_id}';

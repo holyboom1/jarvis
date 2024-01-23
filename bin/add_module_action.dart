@@ -46,7 +46,7 @@ Future<void> addModuleAction() async {
 
   final Directory templatesDirectory = Directory(templatesModulePath);
 
-  if (templatesDirectory.existsSync()) {
+  if (!templatesDirectory.existsSync()) {
     await DirectoryService.cloneRepository(
       AppConstants.kRemoteModuleTemplatesLink,
       templatesModulePath,

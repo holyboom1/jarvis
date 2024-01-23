@@ -19,11 +19,9 @@ class ScriptService {
       runInShell: true,
     );
     if (cleanProcess.exitCode != 0) {
-      stdout.writeln(red(
-          '❌  Error running flutter clean for $modulePath: ${cleanProcess.stderr}'));
+      stdout.writeln(red('❌  Error running flutter clean for $modulePath: ${cleanProcess.stderr}'));
     } else {
-      stdout
-          .writeln(green('✅  Successfully ran flutter clean for $modulePath'));
+      stdout.writeln(green('✅  Successfully ran flutter clean for $modulePath'));
     }
   }
 
@@ -41,11 +39,25 @@ class ScriptService {
       runInShell: true,
     );
     if (pubGetProcess.exitCode != 0) {
-      stdout.writeln(red(
-          '❌  Error running flutter pub get for $modulePath : ${pubGetProcess.stderr}'));
-    } else {
       stdout.writeln(
-          green('✅  Successfully ran flutter pub get for $modulePath'));
+          red('❌  Error running flutter pub get for $modulePath : ${pubGetProcess.stderr}'));
+    } else {
+      stdout.writeln(green('✅  Successfully ran flutter pub get for $modulePath'));
+    }
+  }
+
+  static Future<void> flutterBuild(String modulePath) async {
+    final ProcessResult pubGetProcess = await Process.run(
+      'dart',
+      <String>['pub', 'run', 'build_runner', 'build', '--delete-conflicting-outputs'],
+      workingDirectory: modulePath,
+      runInShell: true,
+    );
+    if (pubGetProcess.exitCode != 0) {
+      stdout.writeln(
+          red('❌  Error running flutter pub get for $modulePath : ${pubGetProcess.stderr}'));
+    } else {
+      stdout.writeln(green('✅  Successfully ran flutter pub get for $modulePath'));
     }
   }
 
@@ -130,16 +142,14 @@ class ScriptService {
   /// [maxVersion] A string that represents the maximum version of Dart allowed.
   /// return A Future<bool> that is true if the installed version of Dart
   /// is within the allowed range and false otherwise.
-  static Future<bool> isDartVersionInRange(
-      String minVersion, String maxVersion) async {
+  static Future<bool> isDartVersionInRange(String minVersion, String maxVersion) async {
     final ProcessResult processResult = await Process.run(
       'dart',
       <String>['--version'],
       runInShell: true,
     );
     final String versionOutput = processResult.stdout.toString().trim();
-    final RegExpMatch? versionMatch =
-        RegExp(r'version: ([\d\.]+)').firstMatch(versionOutput);
+    final RegExpMatch? versionMatch = RegExp(r'version: ([\d\.]+)').firstMatch(versionOutput);
     if (versionMatch != null) {
       final String? sdkVersion = versionMatch.group(1);
       if (sdkVersion != null) {
@@ -149,11 +159,8 @@ class ScriptService {
             convertToThousands(int.tryParse(minVersion.replaceAll('.', '')));
         final int? numericMaxVersion =
             convertToThousands(int.tryParse(maxVersion.replaceAll('.', '')));
-        if (numericSdkVersion != null &&
-            numericMinVersion != null &&
-            numericMaxVersion != null) {
-          if (numericSdkVersion >= numericMinVersion &&
-              numericSdkVersion <= numericMaxVersion) {
+        if (numericSdkVersion != null && numericMinVersion != null && numericMaxVersion != null) {
+          if (numericSdkVersion >= numericMinVersion && numericSdkVersion <= numericMaxVersion) {
             return true;
           }
         }

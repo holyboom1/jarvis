@@ -46,7 +46,7 @@ Future<void> addModuleAction() async {
 
   final Directory templatesDirectory = Directory(templatesModulePath);
 
-  if (!templatesDirectory.existsSync()) {
+  if (templatesDirectory.existsSync()) {
     await DirectoryService.cloneRepository(
       AppConstants.kRemoteModuleTemplatesLink,
       templatesModulePath,
@@ -61,4 +61,9 @@ Future<void> addModuleAction() async {
     moduleName: moduleName ?? 'temp',
     path: '$path/$moduleName/',
   );
+  stdout.writeln(dcli.green('✅ Create Successfully!'));
+  stdout.writeln(dcli.green('✅ Start build!'));
+  await ScriptService.flutterPubGet('$path/$moduleName/');
+  await ScriptService.flutterBuild('$path/$moduleName/');
+  stdout.writeln(dcli.green('✅ Build Successfully!'));
 }

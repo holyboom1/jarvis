@@ -20,13 +20,13 @@ The code uses the [dcli](https://pub.dev/packages/dcli) and [mason_logger](https
 
 Activate globally via:
 ```sh
-dart pub global activate dev_pilot
+dart pub global activate --source git https://github.com/holyboom1/dev_pilot.git
 ```
 
 To create project
 
 ```sh
-dev_pilot create
+emigma create
 ```
 Pub installs executables into $HOME/.pub-cache/bin
 If the one not in your path please add this command to your shell's config file (.bashrc, .bash_profile, etc.)
@@ -49,6 +49,6 @@ Instructions on how to use them in your own application are linked below.
 
 ## Demo
 
-A demo gif instructions for correct use  `dev_pilot`
+A demo gif instructions for correct use  `emigma`
 
 ![demo](./dev_pilot_demo.gif)

@@ -1,4 +1,4 @@
-name: emigma
+name: enigma
 description: Command-line interface (CLI) for generating a Flutter project
 version: 1.0.13
 repository: #TODO
@@ -30,5 +30,5 @@ dev_dependencies:
   test: ^1.25.1
 
 executables:
-  dev_pilot:
+  enigma:
 

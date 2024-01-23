@@ -20,7 +20,7 @@ Future<void> addModuleAction() async {
   final Logger logger = Logger();
 
   // Initialize the variables with default values
-  final String? path = AppConstants.kCurrentPath;
+  final String path = '${AppConstants.kCurrentPath}/features';
   // Get project name from user input
   final String? moduleName = InputService.getValidatedInput(
     stdoutMessage: AppConstants.kEnterModuleName,

@@ -124,37 +124,37 @@ class AppRenameUtil {
     await FileService.updateFileContent(
       oldString: '{module_name}',
       newString: moduleName,
-      filePath: '${path}lib/bloc/temp_bloc.dart',
+      filePath: '${path}lib/src/bloc/temp_bloc.dart',
     );
 
     await FileService.updateFileContent(
       oldString: '{module_name}',
       newString: moduleName,
-      filePath: '${path}lib/bloc/temp_event.dart',
+      filePath: '${path}lib/src/bloc/temp_event.dart',
     );
 
     await FileService.updateFileContent(
       oldString: '{module_name}',
       newString: moduleName,
-      filePath: '${path}lib/bloc/temp_state.dart',
+      filePath: '${path}lib/src/bloc/temp_state.dart',
     );
 
     await FileService.updateFileContent(
       oldString: 'Temp',
       newString: moduleClassName,
-      filePath: '${path}lib/bloc/temp_bloc.dart',
+      filePath: '${path}lib/src/bloc/temp_bloc.dart',
     );
 
     await FileService.updateFileContent(
       oldString: 'Temp',
       newString: moduleClassName,
-      filePath: '${path}lib/bloc/temp_event.dart',
+      filePath: '${path}lib/src/bloc/temp_event.dart',
     );
 
     await FileService.updateFileContent(
       oldString: 'Temp',
       newString: moduleClassName,
-      filePath: '${path}lib/bloc/temp_state.dart',
+      filePath: '${path}lib/src/bloc/temp_state.dart',
     );
 
     await FileService.updateFileContent(
@@ -184,19 +184,19 @@ class AppRenameUtil {
     await FileService.renameFile(
       newName: '${moduleName}_bloc.dart',
       oldName: 'temp_bloc.dart',
-      path: '${path}lib/bloc/',
+      path: '${path}lib/src/bloc/',
     );
 
     await FileService.renameFile(
       newName: '${moduleName}_event.dart',
       oldName: 'temp_event.dart',
-      path: '${path}lib/bloc/',
+      path: '${path}lib/src/bloc/',
     );
 
     await FileService.renameFile(
       newName: '${moduleName}_state.dart',
       oldName: 'temp_state.dart',
-      path: '${path}lib/bloc/',
+      path: '${path}lib/src/bloc/',
     );
 
     await FileService.renameFile(

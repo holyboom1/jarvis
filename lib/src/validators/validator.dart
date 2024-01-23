@@ -10,14 +10,18 @@ class Validator {
   /// (lowercase letters separated by underscores)
   static RegExp snakeCaseRegex = RegExp(r'^[a-z]+(_[a-z]+)*$');
 
+  static RegExp iosBundleIdRegex = RegExp(r'^[a-zA-Z0-9.-]{1,63}(\.[a-zA-Z0-9.-]{1,63})*$');
+
+  static RegExp androidPackageRegex = RegExp(r'^[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*$');
+
+  static RegExp appName = RegExp(r'^[^\n\t\r\f\v]{1,255}$');
+
   /// Returns true if the given project name is valid
   ///
   /// A valid project name is either a full string or a snake_case string
   /// If the [name] parameter is null, the method returns false
   static bool kIsValidProjectName(String? name) {
-    return name == null
-        ? false
-        : (fullStringRegex.hasMatch(name) || snakeCaseRegex.hasMatch(name));
+    return name == null ? false : (fullStringRegex.hasMatch(name) || snakeCaseRegex.hasMatch(name));
   }
 
   /// Returns true if the given path exists
@@ -46,13 +50,36 @@ class Validator {
     final List<String> modules = input.split(',');
 
     for (final String module in modules) {
-      if (!fullStringRegex.hasMatch(module.trim()) &&
-          !snakeCaseRegex.hasMatch(module.trim())) {
+      if (!fullStringRegex.hasMatch(module.trim()) && !snakeCaseRegex.hasMatch(module.trim())) {
         return false;
       }
     }
 
     return true;
+  }
+
+  static bool kIsValidIosBundleId(String? input) {
+    if (input == null || input.isEmpty) {
+      return false;
+    }
+
+    return iosBundleIdRegex.hasMatch(input.trim());
+  }
+
+  static bool kIsValidAndroidPackage(String? input) {
+    if (input == null || input.isEmpty) {
+      return false;
+    }
+
+    return androidPackageRegex.hasMatch(input.trim());
+  }
+
+  static bool kIsValidAppName(String? input) {
+    if (input == null || input.isEmpty) {
+      return false;
+    }
+
+    return appName.hasMatch(input.trim());
   }
 
   /// Returns true if the given input string is a comma-separated
@@ -84,7 +111,6 @@ class Validator {
       return false;
     }
 
-    return fullStringRegex.hasMatch(input.trim()) ||
-        snakeCaseRegex.hasMatch(input.trim());
+    return fullStringRegex.hasMatch(input.trim()) || snakeCaseRegex.hasMatch(input.trim());
   }
 }

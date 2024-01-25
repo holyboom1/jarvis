@@ -23,19 +23,19 @@ Future<void> addModuleAction() async {
 
   // Initialize the variables with default values
   String path = AppConstants.kCurrentPath;
-  if (!path.endsWith('features')) {
-    if (Directory.current.path.contains('features')) {
-      path = Directory.current.path.split('features')[0];
+  if (!path.endsWith('feature')) {
+    if (Directory.current.path.contains('feature')) {
+      path = Directory.current.path.split('feature')[0];
     } else {
       Directory.current.listSync().forEach((FileSystemEntity element) {
-        if (element.path.contains('features')) {
-          path = element.path.split('features')[0];
+        if (element.path.contains('feature')) {
+          path = element.path.split('feature')[0];
         }
       });
     }
   }
   path.endsWith('/') ? path : path = '$path/';
-  final String featuresPath = '${AppConstants.kCurrentPath}features';
+  final String featurePath = '${AppConstants.kCurrentPath}feature';
 
   // Get project name from user input
   final String? moduleName = InputService.getValidatedInput(
@@ -54,7 +54,7 @@ Future<void> addModuleAction() async {
   //Create project with a given name
   final ProcessResult result = Process.runSync(
     'mkdir',
-    <String>['-p', '$featuresPath/$moduleName'],
+    <String>['-p', '$featurePath/$moduleName'],
     runInShell: true,
   );
 
@@ -78,17 +78,17 @@ Future<void> addModuleAction() async {
   }
   await DirectoryService.copy(
     sourcePath: templatesModulePath,
-    destinationPath: '$featuresPath/$moduleName',
+    destinationPath: '$featurePath/$moduleName',
   );
 
   await AppRenameUtil.changeModuleName(
     moduleName: moduleName ?? 'temp',
-    path: '$featuresPath/$moduleName/',
+    path: '$featurePath/$moduleName/',
   );
   stdout.writeln(dcli.green('✅ Create Successfully!'));
   stdout.writeln(dcli.green('✅ Start build!'));
-  await ScriptService.flutterPubGet('$featuresPath/$moduleName/');
-  await ScriptService.flutterBuild('$featuresPath/$moduleName/');
+  await ScriptService.flutterPubGet('$featurePath/$moduleName/');
+  await ScriptService.flutterBuild('$featurePath/$moduleName/');
   stdout.writeln(dcli.green('✅ Build Successfully!'));
 
   if (addToRouter) {

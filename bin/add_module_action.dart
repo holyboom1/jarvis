@@ -34,10 +34,8 @@ Future<void> addModuleAction() async {
       });
     }
   }
-  print('#path# : ${path}');
   path.endsWith('/') ? path : path = '$path/';
-  final String featurePath = '${AppConstants.kCurrentPath}feature';
-  print('#featurePath# : ${featurePath}');
+  final String featurePath = '${AppConstants.kCurrentPath}/feature';
 
   // Get project name from user input
   final String? moduleName = InputService.getValidatedInput(

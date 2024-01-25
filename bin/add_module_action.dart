@@ -93,15 +93,15 @@ Future<void> addModuleAction() async {
 
   if (addToRouter) {
     stdout.writeln(dcli.green('✅ Start adding to router!'));
-    String navigationPath = '$path/navigation/';
+    String navigationPath = '${path}navigation/';
     await AppRenameUtil.addModuleToRouter(
       moduleName: moduleName ?? 'temp',
       path: navigationPath,
     );
     stdout.writeln(dcli.green('✅ Added Successfully!'));
     stdout.writeln(dcli.green('✅ Start navigation build!'));
-    await ScriptService.flutterPubGet('$navigationPath');
-    await ScriptService.flutterBuild('$navigationPath');
+    await ScriptService.flutterPubGet(navigationPath);
+    await ScriptService.flutterBuild(navigationPath);
     stdout.writeln(dcli.green('✅ Navigation Build Successfully!'));
 
     stdout.writeln(dcli.green('✅ Start core build!'));

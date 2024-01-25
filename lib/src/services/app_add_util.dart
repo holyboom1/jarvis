@@ -218,7 +218,7 @@ class AppRenameUtil {
   }) async {
     await FileService.appendToFile(
       '#  Features',
-      '  $moduleName: \n    path: ../../$moduleName',
+      '  $moduleName: \n    path: ../feature/$moduleName',
       '$path/pubspec.yaml',
     );
 

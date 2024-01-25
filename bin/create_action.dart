@@ -7,7 +7,7 @@ import 'package:enigma/src/services/script_service.dart';
 import 'package:enigma/src/validators/validator.dart';
 import 'package:mason_logger/mason_logger.dart';
 
-import '../lib/src/services/app_bundle_util.dart';
+import '../lib/src/services/app_add_util.dart';
 
 Future<void> createAction() async {
   // Check if the Dart version is in the correct range

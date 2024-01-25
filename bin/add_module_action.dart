@@ -1,13 +1,15 @@
 import 'dart:io';
+
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:enigma/src/constants/app_constants.dart';
+import 'package:enigma/src/extension/string_extension.dart';
 import 'package:enigma/src/services/directory_service.dart';
 import 'package:enigma/src/services/input_service.dart';
 import 'package:enigma/src/services/script_service.dart';
 import 'package:enigma/src/validators/validator.dart';
 import 'package:mason_logger/mason_logger.dart';
 
-import '../lib/src/services/app_bundle_util.dart';
+import '../lib/src/services/app_add_util.dart';
 
 Future<void> addModuleAction() async {
   // Check if the Dart version is in the correct range
@@ -20,17 +22,39 @@ Future<void> addModuleAction() async {
   final Logger logger = Logger();
 
   // Initialize the variables with default values
-  final String path = '${AppConstants.kCurrentPath}/features';
+  String path = AppConstants.kCurrentPath;
+  if (!path.endsWith('features')) {
+    if (Directory.current.path.contains('features')) {
+      path = Directory.current.path.split('features')[0];
+    } else {
+      Directory.current.listSync().forEach((FileSystemEntity element) {
+        if (element.path.contains('features')) {
+          path = element.path.split('features')[0];
+        }
+      });
+    }
+  }
+  path.endsWith('/') ? path : path = '$path/';
+  final String featuresPath = '${AppConstants.kCurrentPath}features';
+
   // Get project name from user input
   final String? moduleName = InputService.getValidatedInput(
     stdoutMessage: AppConstants.kEnterModuleName,
     errorMessage: AppConstants.kInvalidModuleName,
   );
 
+  final bool addToRouter = logger.chooseOne(
+    AppConstants.kAddToRouter,
+    choices: <String?>[
+      AppConstants.kYes,
+      AppConstants.kNo,
+    ],
+  ).toBool();
+
   //Create project with a given name
   final ProcessResult result = Process.runSync(
     'mkdir',
-    <String>['-p', '$path/$moduleName'],
+    <String>['-p', '$featuresPath/$moduleName'],
     runInShell: true,
   );
 
@@ -54,16 +78,37 @@ Future<void> addModuleAction() async {
   }
   await DirectoryService.copy(
     sourcePath: templatesModulePath,
-    destinationPath: '$path/$moduleName',
+    destinationPath: '$featuresPath/$moduleName',
   );
 
   await AppRenameUtil.changeModuleName(
     moduleName: moduleName ?? 'temp',
-    path: '$path/$moduleName/',
+    path: '$featuresPath/$moduleName/',
   );
   stdout.writeln(dcli.green('✅ Create Successfully!'));
   stdout.writeln(dcli.green('✅ Start build!'));
-  await ScriptService.flutterPubGet('$path/$moduleName/');
-  await ScriptService.flutterBuild('$path/$moduleName/');
+  await ScriptService.flutterPubGet('$featuresPath/$moduleName/');
+  await ScriptService.flutterBuild('$featuresPath/$moduleName/');
   stdout.writeln(dcli.green('✅ Build Successfully!'));
+
+  if (addToRouter) {
+    stdout.writeln(dcli.green('✅ Start adding to router!'));
+    String navigationPath = '$path/navigation/';
+    await AppRenameUtil.addModuleToRouter(
+      moduleName: moduleName ?? 'temp',
+      path: navigationPath,
+    );
+    stdout.writeln(dcli.green('✅ Added Successfully!'));
+    stdout.writeln(dcli.green('✅ Start navigation build!'));
+    await ScriptService.flutterPubGet('$navigationPath');
+    await ScriptService.flutterBuild('$navigationPath');
+    stdout.writeln(dcli.green('✅ Navigation Build Successfully!'));
+
+    stdout.writeln(dcli.green('✅ Start core build!'));
+    await ScriptService.flutterPubGet('${path}core');
+    await ScriptService.flutterBuild('${path}core');
+    stdout.writeln(dcli.green('✅ Core Build Successfully!'));
+  }
+
+  stdout.writeln(dcli.green('✅ Finish Successfully!'));
 }

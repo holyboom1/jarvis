@@ -211,4 +211,40 @@ class AppRenameUtil {
       path: '${path}lib/',
     );
   }
+
+  static Future<void> addModuleToRouter({
+    required String moduleName,
+    required String path,
+  }) async {
+    await FileService.appendToFile(
+      '#  Features',
+      '  $moduleName: \n    path: ../../$moduleName',
+      '$path/pubspec.yaml',
+    );
+
+    final String moduleClassName;
+    if (moduleName.contains('_')) {
+      final List<String> moduleClassNameList = moduleName.split('_');
+      moduleClassName = moduleClassNameList.map((String e) {
+        return e[0].toUpperCase() + e.substring(1);
+      }).join();
+    } else {
+      moduleClassName = moduleName[0].toUpperCase() + moduleName.substring(1);
+    }
+    await FileService.appendToFile(
+      'modules: <Type>[',
+      ' \n${moduleClassName}Module,\n',
+      '$path/lib/src/app_router/app_router.dart',
+    );
+    await FileService.appendToFile(
+      'final List<AutoRoute> routes = <AutoRoute>[',
+      '   AutoRoute(\n    page: ${moduleClassName}Route.page,\n   ),',
+      '$path/lib/src/app_router/app_router.dart',
+    );
+    await FileService.appendToFile(
+      "import 'services/route_logger.dart';",
+      "export 'package:$moduleName/$moduleName.dart';",
+      '$path/lib/src/app_router/app_router.dart',
+    );
+  }
 }

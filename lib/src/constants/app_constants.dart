@@ -11,6 +11,7 @@ class AppConstants {
   static const String kNeedSpecifyPath =
       'Do you need specify path ? Note if you select "no" project will be created in a current location (Yes/No): ';
   static const String kEnterPath = 'Please specify the path where you want to create the project: ';
+  static const String kAddToRouter = 'Add new module to router : ';
   static const String kAppName = 'Please specify the app display name: ';
   static const String kAppIOSBundle = 'Please specify ios bundle id: ';
   static const String kAppAndroidBundle = 'Please specify android bundle id: ';

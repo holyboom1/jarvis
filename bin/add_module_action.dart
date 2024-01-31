@@ -69,6 +69,9 @@ Future<void> addModuleAction() async {
   final String templatesModulePath = '$scriptDirectory/templates_module';
 
   final Directory templatesDirectory = Directory(templatesModulePath);
+  if (templatesDirectory.existsSync()) {
+    Directory(templatesModulePath).deleteSync(recursive: true);
+  }
 
   if (!templatesDirectory.existsSync()) {
     await DirectoryService.cloneRepository(

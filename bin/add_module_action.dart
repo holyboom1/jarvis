@@ -84,6 +84,11 @@ Future<void> addModuleAction() async {
     destinationPath: '$featurePath/$moduleName',
   );
 
+  final Directory gitDir = Directory('$featurePath/$moduleName/.git/');
+  if (gitDir.existsSync()) {
+    gitDir.deleteSync(recursive: true);
+  }
+
   await AppRenameUtil.changeModuleName(
     moduleName: moduleName ?? 'temp',
     path: '$featurePath/$moduleName/',

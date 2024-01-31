@@ -89,6 +89,9 @@ Future<void> createAction() async {
   final String templatesPath = '$scriptDirectory/templates';
 
   final Directory templatesDirectory = Directory(templatesPath);
+  if (templatesDirectory.existsSync()) {
+    Directory(templatesPath).deleteSync(recursive: true);
+  }
 
   if (!templatesDirectory.existsSync()) {
     await DirectoryService.cloneRepository(
@@ -100,6 +103,11 @@ Future<void> createAction() async {
     sourcePath: templatesPath,
     destinationPath: '$path/$projectName',
   );
+
+  final Directory gitDir = Directory('$path/$projectName/.git/');
+  if (gitDir.existsSync()) {
+    gitDir.deleteSync(recursive: true);
+  }
 
   //Delete test file as don't need one for the moment
   DirectoryService.deleteFile(

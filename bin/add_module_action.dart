@@ -20,22 +20,30 @@ Future<void> addModuleAction() async {
 
   // Create a new logger
   final Logger logger = Logger();
+  String futureDirName = 'feature';
 
   // Initialize the variables with default values
   String path = AppConstants.kCurrentPath;
   if (!path.endsWith('feature')) {
     if (Directory.current.path.contains('feature')) {
       path = Directory.current.path.split('feature')[0];
+    } else if (Directory.current.path.contains('features')) {
+      path = Directory.current.path.split('features')[0];
+      futureDirName = 'features';
     } else {
       Directory.current.listSync().forEach((FileSystemEntity element) {
         if (element.path.contains('feature')) {
           path = element.path.split('feature')[0];
         }
+        if (element.path.contains('features')) {
+          path = element.path.split('features')[0];
+          futureDirName = 'features';
+        }
       });
     }
   }
   path.endsWith('/') ? path : path = '$path/';
-  final String featurePath = '${AppConstants.kCurrentPath}/feature';
+  final String featurePath = '${AppConstants.kCurrentPath}/$futureDirName/';
 
   // Get project name from user input
   final String? moduleName = InputService.getValidatedInput(

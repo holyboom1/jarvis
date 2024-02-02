@@ -92,15 +92,17 @@ Future<void> addModuleAction() async {
     destinationPath: '$featurePath/$moduleName',
   );
 
-  final Directory gitDir = Directory('$featurePath/$moduleName/.git/');
-  if (gitDir.existsSync()) {
-    gitDir.deleteSync(recursive: true);
-  }
-
   await AppRenameUtil.changeModuleName(
     moduleName: moduleName ?? 'temp',
     path: '$featurePath/$moduleName/',
   );
+
+  final Directory gitDir = Directory('$featurePath/$moduleName/.git/');
+  if (gitDir.existsSync()) {
+    stdout.writeln(dcli.green('✅ Remove GIT!'));
+    gitDir.deleteSync(recursive: true);
+  }
+
   stdout.writeln(dcli.green('✅ Create Successfully!'));
   stdout.writeln(dcli.green('✅ Start build!'));
   await ScriptService.flutterPubGet('$featurePath/$moduleName/');

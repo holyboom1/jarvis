@@ -223,13 +223,15 @@ class AppRenameUtil {
   static Future<void> addModuleToRouter({
     required String moduleName,
     required String path,
+    required String modulePath,
   }) async {
     String featurePath = 'feature/';
-    if (path.contains('feature/')) {
+    if (modulePath.contains('feature/')) {
       featurePath = 'feature/';
-    } else if (path.contains('features/')) {
+    } else if (modulePath.contains('features/')) {
       featurePath = 'features/';
     }
+
     await FileService.appendToFile(
       '#  Features',
       '  $moduleName: \n    path: ../$featurePath$moduleName',

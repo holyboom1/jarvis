@@ -115,6 +115,7 @@ Future<void> addModuleAction() async {
     await AppRenameUtil.addModuleToRouter(
       moduleName: moduleName ?? 'temp',
       path: navigationPath,
+      modulePath: '$featurePath/$moduleName/',
     );
     stdout.writeln(dcli.green('✅ Added Successfully!'));
     stdout.writeln(dcli.green('✅ Start navigation build!'));

@@ -224,9 +224,15 @@ class AppRenameUtil {
     required String moduleName,
     required String path,
   }) async {
+    String featurePath = 'feature/';
+    if (path.contains('feature/')) {
+      featurePath = 'feature/';
+    } else if (path.contains('features/')) {
+      featurePath = 'features/';
+    }
     await FileService.appendToFile(
       '#  Features',
-      '  $moduleName: \n    path: ../feature/$moduleName',
+      '  $moduleName: \n    path: ../$featurePath$moduleName',
       '$path/pubspec.yaml',
     );
 

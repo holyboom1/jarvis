@@ -23,8 +23,8 @@ Future<void> addEntityAction() async {
   // Create a new logger
   final Logger logger = Logger();
   final String currentPath = Directory.current.path;
-  final String dataDirPath = '$currentPath/data/lib/';
-  final String domainDirPath = '$currentPath/domain/lib/';
+  final String dataDirPath = '$currentPath/data/';
+  final String domainDirPath = '$currentPath/domain/';
 
   String jsonData = '';
   while (jsonData.isEmpty) {
@@ -156,28 +156,28 @@ Future<void> addEntityAction() async {
       }) = _${model.className}Model;
     }
     ''';
-    final File entityFile = File('${dataDirPath}entities/${model.fileName}_entity.dart');
-    final File mapperFile = File('${dataDirPath}mapper/${model.fileName}_mapper.dart');
-    final File modelFile = File('${domainDirPath}models/${model.fileName}_model.dart');
+    final File entityFile = File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
+    final File mapperFile = File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
+    final File modelFile = File('${domainDirPath}lib/models/${model.fileName}_model.dart');
 
     if (!entityFile.existsSync()) {
       entityFile.createSync(recursive: true);
       entityFile.writeAsStringSync(entityContent);
       await FileService.addToFile(
-          "export '${model.fileName}_entity.dart';", '${dataDirPath}entities/entities.dart');
+          "export '${model.fileName}_entity.dart';", '${dataDirPath}lib/entities/entities.dart');
     }
     if (model.isNeedToCreateModel) {
       if (!mapperFile.existsSync()) {
         mapperFile.createSync(recursive: true);
         mapperFile.writeAsStringSync(mapperContent);
         await FileService.addToFile(
-            "export '${model.fileName}_mapper.dart';", '${dataDirPath}mapper/mappers.dart');
+            "export '${model.fileName}_mapper.dart';", '${dataDirPath}lib/mapper/mappers.dart');
       }
       if (!modelFile.existsSync()) {
         modelFile.createSync(recursive: true);
         modelFile.writeAsStringSync(modelContent);
         await FileService.addToFile(
-            "export '${model.fileName}_model.dart';", '${domainDirPath}models/models.dart');
+            "export '${model.fileName}_model.dart';", '${domainDirPath}lib/models/models.dart');
       }
     }
   }

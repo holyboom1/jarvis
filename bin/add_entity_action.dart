@@ -23,8 +23,8 @@ Future<void> addEntityAction() async {
   // Create a new logger
   final Logger logger = Logger();
   final String currentPath = Directory.current.path;
-  final String dataDirPath = '$currentPath/data/';
-  final String domainDirPath = '$currentPath/domain/';
+  final String dataDirPath = '$currentPath/data/lib';
+  final String domainDirPath = '$currentPath/domain/lib';
 
   String jsonData = '';
   while (jsonData.isEmpty) {

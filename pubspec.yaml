@@ -12,7 +12,7 @@ platforms:
   windows:
 
 environment:
-  sdk: '>=2.19.5 <4.0.0'
+  sdk: '>=3.0.0 <4.0.0'
 
 
 
@@ -24,6 +24,11 @@ dependencies:
   dcli: ^3.3.2
   mason_logger: ^0.2.6
   archive: ^3.4.10
+
+  json_ast: ^1.0.6
+  convert: ^3.0.1
+  dart_style: ^2.2.1
+  equatable: ^2.0.5
 
 dev_dependencies:
   lints: ^3.0.0

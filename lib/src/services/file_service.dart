@@ -37,6 +37,12 @@ class FileService {
     await file.writeAsString(newContent);
   }
 
+  static Future<void> addToFile(String data, String filePath) async {
+    final File file = File(filePath);
+    final String content = await file.readAsString();
+    await file.writeAsString('$content\n$data');
+  }
+
   /// Removes the trailing comma from the given [input] string, if present.
   ///
   /// Returns the modified string or null if [input] is null.

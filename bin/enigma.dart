@@ -3,12 +3,14 @@ import 'dart:io';
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:enigma/src/constants/app_constants.dart';
 
+import 'add_entity_action.dart';
 import 'add_module_action.dart';
 import 'create_action.dart';
 
 enum Actions {
   create('create'),
-  addModule('module');
+  addModule('module'),
+  addEntity('entity');
 
   final String name;
   const Actions(this.name);
@@ -18,12 +20,17 @@ enum Actions {
 void main(List<String> arguments) async {
   stdout.write(dcli.green(AppConstants.kLogo));
 
-  // Check if the argument is create
-  if (arguments.contains(Actions.create.name)) {
-    await createAction();
-  } else if (arguments.contains(Actions.addModule.name)) {
-    await addModuleAction();
-  } else {
-    stdout.writeln(dcli.red('Undefined Command'));
+  switch (arguments.first) {
+    case 'create':
+      await createAction();
+      break;
+    case 'module':
+      await addModuleAction();
+      break;
+    case 'entity':
+      await addEntityAction();
+      break;
+    default:
+      stdout.writeln(dcli.red('Undefined Command'));
   }
 }

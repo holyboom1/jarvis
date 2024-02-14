@@ -24,8 +24,7 @@ class InputService {
     bool? Function(String? message)? functionValidator,
   }) {
     stdout.write(stdoutMessage);
-    String? message = FileService.removeTrailingComma(
-        stdin.readLineSync()?.trim().toLowerCase());
+    String? message = FileService.removeTrailingComma(stdin.readLineSync()?.trim().toLowerCase());
     while (!(functionValidator?.call(message) ?? true)) {
       if (errorMessage != null) {
         stdout.write(red('❌  $errorMessage'));
@@ -33,5 +32,16 @@ class InputService {
       message = stdin.readLineSync()?.trim();
     }
     return message;
+  }
+
+  static String getMultilineInput(String stdoutMessage) {
+    stdout.write(stdoutMessage);
+    final StringBuffer buffer = StringBuffer();
+    String line = '';
+    while (line.isNotEmpty || buffer.isEmpty) {
+      line = stdin.readLineSync()!;
+      buffer.writeln(line);
+    }
+    return buffer.toString();
   }
 }

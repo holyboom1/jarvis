@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
 
+import 'package:dart_style/dart_style.dart';
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:enigma/src/constants/app_constants.dart';
 import 'package:enigma/src/extension/string_extension.dart';
@@ -159,26 +160,28 @@ Future<void> addEntityAction() async {
       }) = _${model.className}Model;
     }
     ''';
+    final DartFormatter formatter = DartFormatter();
+
     final File entityFile = File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
     final File mapperFile = File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
     final File modelFile = File('${domainDirPath}lib/models/${model.fileName}_model.dart');
 
     if (!entityFile.existsSync()) {
       entityFile.createSync(recursive: true);
-      entityFile.writeAsStringSync(entityContent);
+      entityFile.writeAsStringSync(formatter.format(entityContent));
       await FileService.addToFile(
           "export '${model.fileName}_entity.dart';", '${dataDirPath}lib/entities/entities.dart');
     }
     if (model.isNeedToCreateModel) {
       if (!mapperFile.existsSync()) {
         mapperFile.createSync(recursive: true);
-        mapperFile.writeAsStringSync(mapperContent);
+        mapperFile.writeAsStringSync(formatter.format(mapperContent));
         await FileService.addToFile(
             "export '${model.fileName}_mapper.dart';", '${dataDirPath}lib/mapper/mappers.dart');
       }
       if (!modelFile.existsSync()) {
         modelFile.createSync(recursive: true);
-        modelFile.writeAsStringSync(modelContent);
+        modelFile.writeAsStringSync(formatter.format(modelContent));
         await FileService.addToFile(
             "export '${model.fileName}_model.dart';", '${domainDirPath}lib/models/models.dart');
       }

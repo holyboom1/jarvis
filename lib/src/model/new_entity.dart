@@ -162,7 +162,7 @@ class ClassField extends Equatable {
       final NewEntity subEntity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == subName);
       mapperValue =
-          '${isEntity ? 'entity' : 'model'}.$name.map(${subEntity.className}Mapper.to${isEntity ? 'Entity' : 'Model'}).toList()';
+          '${isEntity ? 'entity' : 'model'}.$name.map(${subEntity.className}Mapper.to${isEntity ? 'Model' : 'Entity'}).toList()';
     } else if (type == DartTypes.custom) {
       final NewEntity subEntity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == customType);

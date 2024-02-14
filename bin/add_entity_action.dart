@@ -97,6 +97,7 @@ Future<void> addEntityAction() async {
     final String entityContent = '''
       import 'package:freezed_annotation/freezed_annotation.dart';
       ${model.isNeedToAddHive ? "import 'package:hive/hive.dart';" : ""}
+      import 'entities.dart';
 
       part '${model.fileName}_entity.freezed.dart';
       part '${model.fileName}_entity.g.dart';
@@ -120,6 +121,7 @@ Future<void> addEntityAction() async {
     final String mapperContent = '''
       import 'package:domain/domain.dart';
       import '../entities/entities.dart';
+      import 'mappers.dart';
       
       abstract class ${model.className}Mapper {
         static ${model.className}Model toModel(${model.className}Entity entity) {
@@ -143,7 +145,8 @@ Future<void> addEntityAction() async {
 
     final String modelContent = '''
     import 'package:freezed_annotation/freezed_annotation.dart';
-
+    import 'models.dart';
+    
     part '${model.fileName}_model.freezed.dart';
     
     @freezed

@@ -75,14 +75,14 @@ Future<void> addEntityAction([bool debugMode = false]) async {
     } else {
       NewEntity newModel = models[i].copyWith(
         isNeedToCreateModel: logger.chooseOne(
-          'Create Model and Mapper?',
+          'Create Model and Mapper for ${models[i].className}?',
           choices: <String?>[
             AppConstants.kYes,
             AppConstants.kNo,
           ],
         ).toBool(),
         isNeedToAddHive: logger.chooseOne(
-          'Add Hive to entity?',
+          'Add Hive to entity for ${models[i].className}?',
           choices: <String?>[
             AppConstants.kYes,
             AppConstants.kNo,
@@ -93,7 +93,7 @@ Future<void> addEntityAction([bool debugMode = false]) async {
       newModel = newModel.copyWith(
         hiveTypeId: newModel.isNeedToAddHive
             ? InputService.getValidatedInput(
-                stdoutMessage: 'Enter Hive Type Id: ',
+                stdoutMessage: 'Enter Hive Type Id for ${models[i].className}: ',
                 errorMessage: AppConstants.kData,
                 functionValidator: (String? value) => value?.isNotEmpty,
               ).toInt()

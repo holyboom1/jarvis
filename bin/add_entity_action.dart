@@ -14,7 +14,7 @@ import 'package:enigma/src/services/input_service.dart';
 import 'package:enigma/src/services/script_service.dart';
 import 'package:mason_logger/mason_logger.dart';
 
-Future<void> addEntityAction() async {
+Future<void> addEntityAction([bool debugMode = false]) async {
   // Check if the Dart version is in the correct range
   if (!await ScriptService.isDartVersionInRange('3.0.0', '4.0.0')) {
     stdout.writeln(dcli.red(AppConstants.kUpdateDartVersion));
@@ -63,33 +63,44 @@ Future<void> addEntityAction() async {
   }
 
   for (int i = 0; i < models.length; i++) {
-    NewEntity newModel = models[i].copyWith(
-      isNeedToCreateModel: logger.chooseOne(
-        'Create Model and Mapper?',
-        choices: <String?>[
-          AppConstants.kYes,
-          AppConstants.kNo,
-        ],
-      ).toBool(),
-      isNeedToAddHive: logger.chooseOne(
-        'Add Hive to entity?',
-        choices: <String?>[
-          AppConstants.kYes,
-          AppConstants.kNo,
-        ],
-      ).toBool(),
-    );
+    if (debugMode) {
+      NewEntity newModel = models[i].copyWith(
+        isNeedToCreateModel: true,
+        isNeedToAddHive: true,
+      );
+      newModel = newModel.copyWith(
+        hiveTypeId: i,
+      );
+      models.replaceRange(i, i + 1, <NewEntity>[newModel]);
+    } else {
+      NewEntity newModel = models[i].copyWith(
+        isNeedToCreateModel: logger.chooseOne(
+          'Create Model and Mapper?',
+          choices: <String?>[
+            AppConstants.kYes,
+            AppConstants.kNo,
+          ],
+        ).toBool(),
+        isNeedToAddHive: logger.chooseOne(
+          'Add Hive to entity?',
+          choices: <String?>[
+            AppConstants.kYes,
+            AppConstants.kNo,
+          ],
+        ).toBool(),
+      );
 
-    newModel = newModel.copyWith(
-      hiveTypeId: newModel.isNeedToAddHive
-          ? InputService.getValidatedInput(
-              stdoutMessage: 'Enter Hive Type Id: ',
-              errorMessage: AppConstants.kData,
-              functionValidator: (String? value) => value?.isNotEmpty,
-            ).toInt()
-          : 0,
-    );
-    models.replaceRange(i, i + 1, <NewEntity>[newModel]);
+      newModel = newModel.copyWith(
+        hiveTypeId: newModel.isNeedToAddHive
+            ? InputService.getValidatedInput(
+                stdoutMessage: 'Enter Hive Type Id: ',
+                errorMessage: AppConstants.kData,
+                functionValidator: (String? value) => value?.isNotEmpty,
+              ).toInt()
+            : 0,
+      );
+      models.replaceRange(i, i + 1, <NewEntity>[newModel]);
+    }
   }
 
   for (int i = 0; i < models.length; i++) {
@@ -161,38 +172,42 @@ Future<void> addEntityAction() async {
     }
     ''';
     final DartFormatter formatter = DartFormatter();
-
-    final File entityFile = File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
-    final File mapperFile = File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
-    final File modelFile = File('${domainDirPath}lib/models/${model.fileName}_model.dart');
-
-    if (!entityFile.existsSync()) {
-      entityFile.createSync(recursive: true);
-      entityFile.writeAsStringSync(formatter.format(entityContent));
-      await FileService.addToFile(
-          "export '${model.fileName}_entity.dart';", '${dataDirPath}lib/entities/entities.dart');
-    }
-    if (model.isNeedToCreateModel) {
-      if (!mapperFile.existsSync()) {
-        mapperFile.createSync(recursive: true);
-        mapperFile.writeAsStringSync(formatter.format(mapperContent));
-        await FileService.addToFile(
-            "export '${model.fileName}_mapper.dart';", '${dataDirPath}lib/mapper/mappers.dart');
-      }
-      if (!modelFile.existsSync()) {
-        modelFile.createSync(recursive: true);
-        modelFile.writeAsStringSync(formatter.format(modelContent));
-        await FileService.addToFile(
-            "export '${model.fileName}_model.dart';", '${domainDirPath}lib/models/models.dart');
-      }
-    }
+    //
+    // final File entityFile = File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
+    // final File mapperFile = File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
+    // final File modelFile = File('${domainDirPath}lib/models/${model.fileName}_model.dart');
+    //
+    // if (!entityFile.existsSync()) {
+    //   entityFile.createSync(recursive: true);
+    //   entityFile.writeAsStringSync(formatter.format(entityContent));
+    //   await FileService.addToFile(
+    //       "export '${model.fileName}_entity.dart';", '${dataDirPath}lib/entities/entities.dart');
+    // }
+    // if (model.isNeedToCreateModel) {
+    //   if (!mapperFile.existsSync()) {
+    //     mapperFile.createSync(recursive: true);
+    //     mapperFile.writeAsStringSync(formatter.format(mapperContent));
+    //     await FileService.addToFile(
+    //         "export '${model.fileName}_mapper.dart';", '${dataDirPath}lib/mapper/mappers.dart');
+    //   }
+    //   if (!modelFile.existsSync()) {
+    //     modelFile.createSync(recursive: true);
+    //     modelFile.writeAsStringSync(formatter.format(modelContent));
+    //     await FileService.addToFile(
+    //         "export '${model.fileName}_model.dart';", '${domainDirPath}lib/models/models.dart');
+    //   }
+    // }
   }
 
-  stdout.writeln(dcli.green('✅ Create Successfully!'));
-  stdout.writeln(dcli.green('✅ Start build!'));
-  await ScriptService.flutterBuild('$dataDirPath');
-  await ScriptService.flutterBuild('$domainDirPath');
-  stdout.writeln(dcli.green('✅ Build Successfully!'));
+  // stdout.writeln(dcli.green('✅ Create Successfully!'));
+  // stdout.writeln(dcli.green('✅ Start build!'));
+  // await ScriptService.flutterBuild('$dataDirPath');
+  // await ScriptService.flutterBuild('$domainDirPath');
+  // stdout.writeln(dcli.green('✅ Build Successfully!'));
+  //
+  // stdout.writeln(dcli.green('✅ Finish Successfully!'));
+}
 
-  stdout.writeln(dcli.green('✅ Finish Successfully!'));
+void main() {
+  addEntityAction(true);
 }

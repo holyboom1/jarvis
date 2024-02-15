@@ -135,7 +135,13 @@ class ClassField extends Equatable {
   }) {
     final String classType;
     final String defaultVal;
-    if (type == DartTypes.listCustom) {
+    if (type == DartTypes.listCustom &&
+        subType != DartTypes.custom &&
+        subType != DartTypes.listCustom &&
+        subType != null) {
+      defaultVal = 'const <${subType!.value}>[]';
+      classType = 'List<${subType!.value}> $name';
+    } else if (type == DartTypes.listCustom) {
       final NewEntity subEntity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == subName);
       defaultVal = 'const <${subEntity.className}${isEntity ? 'Entity' : 'Model'}>[]';
@@ -158,7 +164,12 @@ class ClassField extends Equatable {
   }) {
     final String fieldName = name;
     final String mapperValue;
-    if (type == DartTypes.listCustom) {
+    if (type == DartTypes.listCustom &&
+        subType != DartTypes.custom &&
+        subType != DartTypes.listCustom &&
+        subType != null) {
+      mapperValue = '<${subType!.value}>[...${isEntity ? 'entity' : 'model'}.$name]';
+    } else if (type == DartTypes.listCustom) {
       final NewEntity subEntity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == subName);
       mapperValue =

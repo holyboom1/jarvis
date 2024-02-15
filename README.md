@@ -50,5 +50,3 @@ Instructions on how to use them in your own application are linked below.
 ## Demo
 
 A demo gif instructions for correct use  `emigma`
-
-![demo](./dev_pilot_demo.gif)

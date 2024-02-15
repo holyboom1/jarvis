@@ -172,40 +172,40 @@ Future<void> addEntityAction([bool debugMode = false]) async {
     }
     ''';
     final DartFormatter formatter = DartFormatter();
-    //
-    // final File entityFile = File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
-    // final File mapperFile = File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
-    // final File modelFile = File('${domainDirPath}lib/models/${model.fileName}_model.dart');
-    //
-    // if (!entityFile.existsSync()) {
-    //   entityFile.createSync(recursive: true);
-    //   entityFile.writeAsStringSync(formatter.format(entityContent));
-    //   await FileService.addToFile(
-    //       "export '${model.fileName}_entity.dart';", '${dataDirPath}lib/entities/entities.dart');
-    // }
-    // if (model.isNeedToCreateModel) {
-    //   if (!mapperFile.existsSync()) {
-    //     mapperFile.createSync(recursive: true);
-    //     mapperFile.writeAsStringSync(formatter.format(mapperContent));
-    //     await FileService.addToFile(
-    //         "export '${model.fileName}_mapper.dart';", '${dataDirPath}lib/mapper/mappers.dart');
-    //   }
-    //   if (!modelFile.existsSync()) {
-    //     modelFile.createSync(recursive: true);
-    //     modelFile.writeAsStringSync(formatter.format(modelContent));
-    //     await FileService.addToFile(
-    //         "export '${model.fileName}_model.dart';", '${domainDirPath}lib/models/models.dart');
-    //   }
-    // }
+
+    final File entityFile = File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
+    final File mapperFile = File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
+    final File modelFile = File('${domainDirPath}lib/models/${model.fileName}_model.dart');
+
+    if (!entityFile.existsSync()) {
+      entityFile.createSync(recursive: true);
+      entityFile.writeAsStringSync(formatter.format(entityContent));
+      await FileService.addToFile(
+          "export '${model.fileName}_entity.dart';", '${dataDirPath}lib/entities/entities.dart');
+    }
+    if (model.isNeedToCreateModel) {
+      if (!mapperFile.existsSync()) {
+        mapperFile.createSync(recursive: true);
+        mapperFile.writeAsStringSync(formatter.format(mapperContent));
+        await FileService.addToFile(
+            "export '${model.fileName}_mapper.dart';", '${dataDirPath}lib/mapper/mappers.dart');
+      }
+      if (!modelFile.existsSync()) {
+        modelFile.createSync(recursive: true);
+        modelFile.writeAsStringSync(formatter.format(modelContent));
+        await FileService.addToFile(
+            "export '${model.fileName}_model.dart';", '${domainDirPath}lib/models/models.dart');
+      }
+    }
   }
 
-  // stdout.writeln(dcli.green('✅ Create Successfully!'));
-  // stdout.writeln(dcli.green('✅ Start build!'));
-  // await ScriptService.flutterBuild('$dataDirPath');
-  // await ScriptService.flutterBuild('$domainDirPath');
-  // stdout.writeln(dcli.green('✅ Build Successfully!'));
-  //
-  // stdout.writeln(dcli.green('✅ Finish Successfully!'));
+  stdout.writeln(dcli.green('✅ Create Successfully!'));
+  stdout.writeln(dcli.green('✅ Start build!'));
+  await ScriptService.flutterBuild('$dataDirPath');
+  await ScriptService.flutterBuild('$domainDirPath');
+  stdout.writeln(dcli.green('✅ Build Successfully!'));
+
+  stdout.writeln(dcli.green('✅ Finish Successfully!'));
 }
 
 void main() {

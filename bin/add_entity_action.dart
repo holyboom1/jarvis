@@ -48,7 +48,7 @@ Future<void> addEntityAction([bool debugMode = false]) async {
   for (int i = 0; i < generatedClass.length; i++) {
     final String name = InputService.getValidatedInput(
           stdoutMessage:
-              'Enter entity name for class (without entity postfix ex: "test data" or "TestData" or "test_data") \n '
+              'Enter entity name for class (without entity postfix ex: "test data" or "test_data") \n '
               '${generatedClass[i]}'
               ': ',
           errorMessage: AppConstants.kData,

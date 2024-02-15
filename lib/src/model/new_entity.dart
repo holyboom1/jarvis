@@ -178,7 +178,7 @@ class ClassField extends Equatable {
       final NewEntity subEntity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == customType);
       mapperValue =
-          '${subEntity.className}Mapper.to${isEntity ? 'Entity' : 'Model'}(${isEntity ? 'entity' : 'model'}.$name)';
+          '${subEntity.className}Mapper.to${isEntity ? 'Model' : 'Entity'}(${isEntity ? 'entity' : 'model'}.$name)';
     } else {
       mapperValue = '${isEntity ? 'entity' : 'model'}.$name';
     }

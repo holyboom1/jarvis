@@ -197,7 +197,7 @@ class ClassField extends Equatable {
 enum DartTypes {
   int('int', '0'),
   double('double', '0.0'),
-  string('String', '""'),
+  string('String', "''"),
   bool('bool', 'false'),
   listCustom('List<custom>', 'const []'),
   custom('custom', 'custom');

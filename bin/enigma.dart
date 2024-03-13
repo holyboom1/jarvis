@@ -5,16 +5,8 @@ import 'package:enigma/src/constants/app_constants.dart';
 
 import 'add_entity_action.dart';
 import 'add_module_action.dart';
+import 'add_usecase_action.dart';
 import 'create_action.dart';
-
-enum Actions {
-  create('create'),
-  addModule('module'),
-  addEntity('entity');
-
-  final String name;
-  const Actions(this.name);
-}
 
 // Main method
 void main(List<String> arguments) async {
@@ -29,6 +21,9 @@ void main(List<String> arguments) async {
       break;
     case 'entity':
       await addEntityAction();
+      break;
+    case 'usecase':
+      await addUseCaseAction();
       break;
     default:
       stdout.writeln(dcli.red('Undefined Command'));

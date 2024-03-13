@@ -199,7 +199,7 @@ enum DartTypes {
   double('double', '0.0'),
   string('String', "''"),
   bool('bool', 'false'),
-  listCustom('List<custom>', 'const []'),
+  listCustom('List<custom>', '[]'),
   custom('custom', 'custom');
 
   final String value;

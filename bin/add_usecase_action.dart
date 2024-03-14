@@ -90,13 +90,13 @@ Future<void> addUseCaseAction() async {
     ''';
 
   final File usecaseFile =
-      File('${domainPath}/lib/useceses/${useCaseName.snakeCase()}_usecase.dart');
+      File('${domainPath}/lib/usecases/${useCaseName.snakeCase()}_usecase.dart');
 
   if (!usecaseFile.existsSync()) {
     usecaseFile.createSync(recursive: true);
     usecaseFile.writeAsStringSync(useCaseContent);
     await FileService.addToFile("export '${useCaseName.snakeCase()}_usecase.dart';",
-        '${domainPath}/lib/useceses/export_usecases.dart');
+        '${domainPath}/lib/usecases/export_usecases.dart');
   }
 
   stdout.writeln(dcli.green('✅ Create Successfully!'));

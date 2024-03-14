@@ -92,7 +92,3 @@ Future<void> addRepoAction() async {
   stdout.writeln(dcli.green('✅ Create Successfully!'));
   stdout.writeln(dcli.green('✅ Finish Successfully!'));
 }
-
-void main(List<String> args) async {
-  await addRepoAction();
-}

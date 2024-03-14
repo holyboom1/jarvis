@@ -4,7 +4,9 @@ import 'package:dcli/dcli.dart' as dcli;
 import 'package:enigma/src/constants/app_constants.dart';
 
 import 'add_entity_action.dart';
+import 'add_help_action.dart';
 import 'add_module_action.dart';
+import 'add_repo_action.dart';
 import 'add_usecase_action.dart';
 import 'create_action.dart';
 
@@ -24,6 +26,12 @@ void main(List<String> arguments) async {
       break;
     case 'usecase':
       await addUseCaseAction();
+      break;
+    case 'repo':
+      await addRepoAction();
+      break;
+    case 'help':
+      await helpAction();
       break;
     default:
       stdout.writeln(dcli.red('Undefined Command'));

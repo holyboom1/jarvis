@@ -12,8 +12,7 @@ import 'package:mason_logger/mason_logger.dart';
 
 import '../lib/src/services/app_add_util.dart';
 
-Future<void> addUseCaseAction() async {
-  // Check if the Dart version is in the correct range
+Future<void> addRepoAction() async {
   if (!await ScriptService.isDartVersionInRange('2.19.5', '4.0.0')) {
     stdout.writeln(dcli.red(AppConstants.kUpdateDartVersion));
     return;
@@ -22,6 +21,7 @@ Future<void> addUseCaseAction() async {
   // Create a new logger
   final Logger logger = Logger();
   String domainDirName = 'domain';
+  String dataDirName = 'data';
   // Initialize the variables with default values
   String path = AppConstants.kCurrentPath;
   if (!path.endsWith('domain')) {
@@ -29,7 +29,6 @@ Future<void> addUseCaseAction() async {
       path = Directory.current.path.split('domain')[0];
     } else if (Directory.current.path.contains('domain')) {
       path = Directory.current.path.split('domain')[0];
-      domainDirName = 'domain';
     } else {
       Directory.current.listSync().forEach((FileSystemEntity element) {
         if (element.path.contains('domain')) {
@@ -37,68 +36,63 @@ Future<void> addUseCaseAction() async {
         }
         if (element.path.contains('domain')) {
           path = element.path.split('domain')[0];
-          domainDirName = 'domain';
         }
       });
     }
   }
+
   path.endsWith('/') ? path : path = '$path/';
   final String domainPath = '${AppConstants.kCurrentPath}/$domainDirName/';
-
-  // Get project name from user input
-  final String? useCaseName = InputService.getValidatedInput(
-    stdoutMessage: 'Enter a usecase name (GetUser): ',
-    errorMessage: AppConstants.kData,
-  );
+  final String dataPath = '${AppConstants.kCurrentPath}/$dataDirName/';
 
   final String? repositoryName = InputService.getValidatedInput(
-    stdoutMessage: 'Enter a repository name (UserRepository): ',
+    stdoutMessage: 'Enter a repository name (User without Repository postfix): ',
     errorMessage: AppConstants.kData,
   );
 
-  final String? returnTypeName = InputService.getValidatedInput(
-    stdoutMessage: 'Enter a return type name (User): ',
-    errorMessage: AppConstants.kData,
-  );
+  final String repoAbsContent = '''
+    import '../domain.dart';
 
-  final String? inputTypeName = InputService.getValidatedInput(
-    stdoutMessage: 'Enter a input type name (String or NoParams): ',
-    errorMessage: AppConstants.kData,
-  );
-
-  final String? methodName = InputService.getValidatedInput(
-    stdoutMessage: 'Enter a method name (getUser): ',
-    errorMessage: AppConstants.kData,
-  );
-
-  final String useCaseContent = '''
-    import '../../domain.dart';
-
-    class ${useCaseName}UseCase implements FutureUseCase<$inputTypeName, $returnTypeName> {
-      final $repositoryName _repository;
+    abstract class ${repositoryName}Repository {
     
-      ${useCaseName}UseCase({
-        required $repositoryName repository,
-      }) : _repository = repository;
-    
-      @override
-      Future<$returnTypeName> execute($inputTypeName input) {
-        return _repository.$methodName();
-      }
     }
 
     ''';
 
-  final File usecaseFile =
-      File('${domainPath}/lib/useceses/${useCaseName.snakeCase()}_usecase.dart');
+  final String repoImplContent = '''
+           import 'package:core/core.dart';
+        import 'package:domain/domain.dart';
+        
+        import '../data.dart';
+        
+        class ${repositoryName}RepositoryImpl implements ${repositoryName}Repository {
+         
+        }
+    ''';
 
-  if (!usecaseFile.existsSync()) {
-    usecaseFile.createSync(recursive: true);
-    usecaseFile.writeAsStringSync(useCaseContent);
-    await FileService.addToFile("export '${useCaseName.snakeCase()}_usecase.dart';",
-        '${domainPath}/lib/useceses/export_usecases.dart');
+  final File repoAbsFile =
+      File('${domainPath}/lib/repositories/${repositoryName.snakeCase()}_repository.dart');
+  final File repoImplFile =
+      File('${dataPath}/lib/repositories/${repositoryName.snakeCase()}_repository_impl.dart');
+
+  if (!repoAbsFile.existsSync()) {
+    repoAbsFile.createSync(recursive: true);
+    repoAbsFile.writeAsStringSync(repoAbsContent);
+    await FileService.addToFile("export '${repositoryName.snakeCase()}_repository.dart';",
+        '${domainPath}/lib/repositories/repositories.dart');
+  }
+
+  if (!repoImplFile.existsSync()) {
+    repoImplFile.createSync(recursive: true);
+    repoImplFile.writeAsStringSync(repoImplContent);
+    await FileService.addToFile("export '${repositoryName.snakeCase()}_repository_impl.dart';",
+        '${dataPath}/lib/repositories/repositories.dart');
   }
 
   stdout.writeln(dcli.green('✅ Create Successfully!'));
   stdout.writeln(dcli.green('✅ Finish Successfully!'));
+}
+
+void main(List<String> args) async {
+  await addRepoAction();
 }

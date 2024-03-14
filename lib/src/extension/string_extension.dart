@@ -18,9 +18,14 @@ extension StringExtension on String? {
     if (this == null) {
       return '';
     }
-    final String result = this!
+    String result = this!
         .replaceAllMapped(RegExp('([A-Z])'), (Match match) => '_${match.group(0)?.toLowerCase()}');
-    return result.replaceAll(' ', '_').toLowerCase();
+    result = result.replaceAll(' ', '_').toLowerCase();
+    if (result.startsWith('_')) {
+      result = result.substring(1);
+    }
+
+    return result;
   }
 
   String toCamelCase() {

@@ -21,7 +21,7 @@ dependencies:
   get_it: ^7.6.7
   logger: ^2.0.2+1
   args: ^2.4.2
-  dcli: 3.3.2
+  dcli: ^4.0.1-alpha.13
   mason_logger: ^0.2.6
   archive: ^3.4.10
 

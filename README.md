@@ -22,18 +22,40 @@ Activate globally via:
 ```sh
 dart pub global activate --source git https://github.com/holyboom1/dev_pilot.git
 ```
-
-To create project
-
-```sh
-emigma create
-```
 Pub installs executables into $HOME/.pub-cache/bin
 If the one not in your path please add this command to your shell's config file (.bashrc, .bash_profile, etc.)
 
 ```sh
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 ```
+
+## Abailable Commands
+
+Create a new Flutter project with the following command:
+```sh
+emigma create
+```
+
+Create a new module with the following command:
+```sh
+emigma module
+```
+
+Create a new repository with the following command:
+```sh
+emigma repository
+```
+
+Create a new use case with the following command:
+```sh
+emigma usecase
+```
+
+Create a new entity (with mapper and model) with the following command:
+```sh
+emigma entity
+```
+
 
 ## Plugins
 

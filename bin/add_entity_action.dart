@@ -46,20 +46,29 @@ Future<void> addEntityAction([bool debugMode = false]) async {
 
   final List<NewEntity> models = <NewEntity>[];
   for (int i = 0; i < generatedClass.length; i++) {
-    final String name = InputService.getValidatedInput(
-          stdoutMessage:
-              'Enter entity name for class (without entity postfix ex: "test data" or "test_data") \n '
-              '${generatedClass[i]}'
-              ': ',
-          errorMessage: AppConstants.kData,
-          functionValidator: (String? value) => value?.isNotEmpty,
-        ) ??
-        '';
-    models.add(NewEntity(
-      className: name.toCamelCase(),
-      fileName: name.snakeCase(),
-      rawClass: generatedClass[i],
-    ));
+    final bool isNeedToCreate = logger.chooseOne(
+      'Create model for  ${generatedClass[i]}?',
+      choices: <String?>[
+        AppConstants.kYes,
+        AppConstants.kNo,
+      ],
+    ).toBool();
+    if (isNeedToCreate) {
+      final String name = InputService.getValidatedInput(
+            stdoutMessage:
+                'Enter entity name for class (without entity postfix ex: "test data" or "test_data") \n '
+                '${generatedClass[i]}'
+                ': ',
+            errorMessage: AppConstants.kData,
+            functionValidator: (String? value) => value?.isNotEmpty,
+          ) ??
+          '';
+      models.add(NewEntity(
+        className: name.toCamelCase(),
+        fileName: name.snakeCase(),
+        rawClass: generatedClass[i],
+      ));
+    }
   }
 
   for (int i = 0; i < models.length; i++) {

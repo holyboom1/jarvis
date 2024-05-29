@@ -42,22 +42,30 @@ Create a new module with the following command:
 ```sh
 emigma module
 ```
+![create_module.gif](doc%2Freadme%2Fcreate_module.gif)
 
+______________________________________________
 Create a new repository with the following command:
 ```sh
 emigma repository
 ```
+![create_repo.gif](doc%2Freadme%2Fcreate_repo.gif)
 
+______________________________________________
 Create a new use case with the following command:
 ```sh
 emigma usecase
 ```
+![create_usecase.gif](doc%2Freadme%2Fcreate_usecase.gif)
 
+______________________________________________
 Create a new entity (with mapper and model) with the following command:
 ```sh
 emigma entity
 ```
+![create_entity.gif](doc%2Freadme%2Fcreate_entity.gif)
 
+______________________________________________
 
 ## Plugins
 

@@ -35,7 +35,9 @@ Create a new Flutter project with the following command:
 ```sh
 emigma create
 ```
+![create_readme.gif](doc%2Freadme%2Fcreate_readme.gif)
 
+______________________________________________
 Create a new module with the following command:
 ```sh
 emigma module

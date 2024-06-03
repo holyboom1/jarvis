@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:developer';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:json_ast/json_ast.dart' show parse, Settings, Node;
@@ -92,6 +93,11 @@ class ModelGenerator {
     final Node astNode = parse(rawJson, Settings());
     final List<Warning> warnings =
         _generateClassDefinition(_rootClassName, jsonRawData, '', astNode);
+    if (warnings.isNotEmpty) {
+      warnings.forEach((Warning w) {
+        log(w.warning);
+      });
+    }
     // after generating all classes, replace the omited similar classes.
     allClasses.forEach((ClassDefinition c) {
       final Iterable<String> fieldsKeys = c.fields.keys;

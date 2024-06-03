@@ -39,6 +39,7 @@ Future<void> addEntityAction({bool debugMode = false}) async {
 
   final List<String> generatedClass = ModelGenerator.generateDartClasses(
     rawJson: jsonData,
+    className: 'Main',
   );
 
   final List<NewEntity> models = <NewEntity>[];

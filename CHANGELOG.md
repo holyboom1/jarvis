@@ -1,3 +1,12 @@
+## 0.0.2
+- Update README file.
+- Update CHANGELOG file.
+- Update pubspec.yaml file.
+- Update the command from `emigma` to `jarvis` for the package name.
+- Fix the issue with the `create` command.
+- Fix the issue with the `entity` command.
+
+
 ## 0.0.1
 - Added ability to create a new project with a custom package name
 - Added ability to create a new project with a custom package description

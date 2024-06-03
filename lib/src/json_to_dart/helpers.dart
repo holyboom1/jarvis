@@ -1,4 +1,4 @@
-import 'dart:convert' as Convert;
+import 'dart:convert' as convert;
 import 'dart:math';
 import 'package:json_ast/json_ast.dart' show Node, ObjectNode, ArrayNode, LiteralNode, PropertyNode;
 
@@ -24,7 +24,7 @@ class MergeableListType {
   final ListType listType;
   final bool isAmbigous;
 
-  MergeableListType(this.listType, this.isAmbigous);
+  MergeableListType(this.listType, {this.isAmbigous = false});
 }
 
 MergeableListType mergeableListType(List<dynamic> list) {
@@ -37,7 +37,7 @@ MergeableListType mergeableListType(List<dynamic> list) {
     }
     t = inferredType ?? ListType.Null;
   });
-  return MergeableListType(t, isAmbigous);
+  return MergeableListType(t, isAmbigous: isAmbigous);
 }
 
 ListType? getInferredType(dynamic d) {
@@ -67,7 +67,7 @@ String camelCaseFirstLower(String text) {
 }
 
 dynamic decodeJSON(String rawJson) {
-  return Convert.json.decode(rawJson);
+  return convert.json.decode(rawJson);
 }
 
 WithWarning<Map> mergeObj(Map obj, Map other, String path) {

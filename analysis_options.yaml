@@ -54,7 +54,6 @@ linter:
     always_put_control_body_on_new_line: false
     always_put_required_named_parameters_first: false
     always_require_non_null_named_parameters: true
-    always_specify_types: true
     annotate_overrides: true
     avoid_annotating_with_dynamic: false
     avoid_as: false

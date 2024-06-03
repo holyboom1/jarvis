@@ -13,7 +13,6 @@ import 'create_action.dart';
 // Main method
 void main(List<String> arguments) async {
   stdout.write(dcli.green(AppConstants.kLogo));
-
   switch (arguments.first) {
     case 'create':
       await createAction();

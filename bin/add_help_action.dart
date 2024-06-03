@@ -1,16 +1,9 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:enigma/src/constants/app_constants.dart';
-import 'package:enigma/src/extension/string_extension.dart';
-import 'package:enigma/src/services/directory_service.dart';
-import 'package:enigma/src/services/file_service.dart';
-import 'package:enigma/src/services/input_service.dart';
-import 'package:enigma/src/services/script_service.dart';
-import 'package:enigma/src/validators/validator.dart';
-import 'package:mason_logger/mason_logger.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
+import 'package:jarvis/src/services/script_service.dart';
 
-import '../lib/src/services/app_add_util.dart';
 
 Future<void> helpAction() async {
   // Check if the Dart version is in the correct range
@@ -19,8 +12,7 @@ Future<void> helpAction() async {
     return;
   }
 
-  // Create a new logger
-  final Logger logger = Logger();
+  
 
   stdout.writeln(dcli.green('➡️ DevPilot Help ⬅️'));
   stdout.writeln(dcli.green('🔹 create: Create a new project'));

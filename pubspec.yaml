@@ -1,7 +1,7 @@
-name: enigma
+name: jarvis
 description: Command-line interface (CLI) for generating a Flutter project
-version: 1.0.16
-repository: #TODO
+version: 0.0.1
+homepage: https://github.com/holyboom1/dev_pilot.git
 
 platforms:
   android:
@@ -21,7 +21,7 @@ dependencies:
   get_it: ^7.6.7
   logger: ^2.0.2+1
   args: ^2.4.2
-  dcli: ^4.0.1-alpha.13
+  dcli: ^4.0.1
   mason_logger: ^0.2.6
   archive: ^3.4.10
 
@@ -35,5 +35,5 @@ dev_dependencies:
   test: ^1.25.1
 
 executables:
-  enigma:
+  jarvis:
 

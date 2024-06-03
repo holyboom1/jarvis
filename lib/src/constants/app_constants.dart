@@ -82,7 +82,7 @@ class AppConstants {
   static const String kRemoteModuleTemplatesLink =
       'https://github.com/holyboom1/dev_pilot_module_template.git';
 
-  static const String kLogo = r'''
+  static const String kLogo = '''
     👾🅓🅔🅥🅟🅘🅛🅞🅣👾
   ''';
 }

@@ -1,12 +1,11 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:enigma/src/constants/app_constants.dart';
-import 'package:enigma/src/extension/string_extension.dart';
-import 'package:enigma/src/services/directory_service.dart';
-import 'package:enigma/src/services/input_service.dart';
-import 'package:enigma/src/services/script_service.dart';
-import 'package:enigma/src/validators/validator.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
+import 'package:jarvis/src/extension/string_extension.dart';
+import 'package:jarvis/src/services/directory_service.dart';
+import 'package:jarvis/src/services/input_service.dart';
+import 'package:jarvis/src/services/script_service.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 import '../lib/src/services/app_add_util.dart';
@@ -42,7 +41,9 @@ Future<void> addModuleAction() async {
       });
     }
   }
-  path.endsWith('/') ? path : path = '$path/';
+  if (!path.endsWith('/')) {
+    path = '$path/';
+  }
   final String featurePath = '${AppConstants.kCurrentPath}/$futureDirName/';
 
   // Get project name from user input
@@ -111,7 +112,7 @@ Future<void> addModuleAction() async {
 
   if (addToRouter) {
     stdout.writeln(dcli.green('✅ Start adding to router!'));
-    String navigationPath = '${path}navigation/';
+    final String navigationPath = '${path}navigation/';
     await AppRenameUtil.addModuleToRouter(
       moduleName: moduleName ?? 'temp',
       path: navigationPath,

@@ -1,7 +1,5 @@
-import 'dart:io';
 
-import 'package:enigma/src/constants/app_constants.dart';
-import 'package:enigma/src/services/file_service.dart';
+import 'file_service.dart';
 
 class AppRenameUtil {
   static const String _androidBundleKey = '{android_bundle_id}';
@@ -49,7 +47,7 @@ class AppRenameUtil {
     await FileService.updateFileContent(
       oldString: 'com.example.temp',
       newString: androidBundleId,
-      filePath: "${path}android/app/src/main/kotlin/com/main/MainActivity.kt",
+      filePath: '${path}android/app/src/main/kotlin/com/main/MainActivity.kt',
     );
   }
 

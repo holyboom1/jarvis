@@ -1,16 +1,11 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:enigma/src/constants/app_constants.dart';
-import 'package:enigma/src/extension/string_extension.dart';
-import 'package:enigma/src/services/directory_service.dart';
-import 'package:enigma/src/services/file_service.dart';
-import 'package:enigma/src/services/input_service.dart';
-import 'package:enigma/src/services/script_service.dart';
-import 'package:enigma/src/validators/validator.dart';
-import 'package:mason_logger/mason_logger.dart';
-
-import '../lib/src/services/app_add_util.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
+import 'package:jarvis/src/extension/string_extension.dart';
+import 'package:jarvis/src/services/file_service.dart';
+import 'package:jarvis/src/services/input_service.dart';
+import 'package:jarvis/src/services/script_service.dart';
 
 Future<void> addRepoAction() async {
   if (!await ScriptService.isDartVersionInRange('2.19.5', '4.0.0')) {
@@ -18,10 +13,8 @@ Future<void> addRepoAction() async {
     return;
   }
 
-  // Create a new logger
-  final Logger logger = Logger();
-  String domainDirName = 'domain';
-  String dataDirName = 'data';
+  const String domainDirName = 'domain';
+  const String dataDirName = 'data';
   // Initialize the variables with default values
   String path = AppConstants.kCurrentPath;
   if (!path.endsWith('domain')) {
@@ -41,7 +34,9 @@ Future<void> addRepoAction() async {
     }
   }
 
-  path.endsWith('/') ? path : path = '$path/';
+  if (!path.endsWith('/')) {
+    path = '$path/';
+  }
   final String domainPath = '${AppConstants.kCurrentPath}/$domainDirName/';
   final String dataPath = '${AppConstants.kCurrentPath}/$dataDirName/';
 
@@ -71,22 +66,22 @@ Future<void> addRepoAction() async {
     ''';
 
   final File repoAbsFile =
-      File('${domainPath}/lib/repositories/${repositoryName.snakeCase()}_repository.dart');
+      File('$domainPath/lib/repositories/${repositoryName.snakeCase()}_repository.dart');
   final File repoImplFile =
-      File('${dataPath}/lib/repositories/${repositoryName.snakeCase()}_repository_impl.dart');
+      File('$dataPath/lib/repositories/${repositoryName.snakeCase()}_repository_impl.dart');
 
   if (!repoAbsFile.existsSync()) {
     repoAbsFile.createSync(recursive: true);
     repoAbsFile.writeAsStringSync(repoAbsContent);
     await FileService.addToFile("export '${repositoryName.snakeCase()}_repository.dart';",
-        '${domainPath}/lib/repositories/repositories.dart');
+        '$domainPath/lib/repositories/repositories.dart');
   }
 
   if (!repoImplFile.existsSync()) {
     repoImplFile.createSync(recursive: true);
     repoImplFile.writeAsStringSync(repoImplContent);
     await FileService.addToFile("export '${repositoryName.snakeCase()}_repository_impl.dart';",
-        '${dataPath}/lib/repositories/repositories.dart');
+        '$dataPath/lib/repositories/repositories.dart');
   }
 
   stdout.writeln(dcli.green('✅ Create Successfully!'));

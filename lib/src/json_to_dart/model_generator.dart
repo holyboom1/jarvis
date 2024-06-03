@@ -1,25 +1,24 @@
 import 'dart:collection';
 
 import 'package:dart_style/dart_style.dart';
-import 'package:json_ast/json_ast.dart' show parse, Settings, Node;
+import 'package:json_ast/json_ast.dart' show Node;
 
 import 'helpers.dart';
 import 'syntax.dart';
 
 class ModelGenerator {
-  final String _rootClassName;
   final bool _privateFields;
   List<ClassDefinition> allClasses = <ClassDefinition>[];
   final Map<String, String> sameClassMapping = HashMap<String, String>();
 
-  ModelGenerator(this._rootClassName, [this._privateFields = false]);
+  ModelGenerator([this._privateFields = false]);
 
   List<Warning> _generateClassDefinition(
       String className, dynamic jsonRawDynamicData, String path, Node? astNode) {
     final List<Warning> warnings = <Warning>[];
     if (jsonRawDynamicData is List) {
       final Node? node = navigateNode(astNode, '0');
-      _generateClassDefinition(className, jsonRawDynamicData[0], path, node!);
+      _generateClassDefinition(className, jsonRawDynamicData[0], path, node);
     } else {
       final Map<dynamic, dynamic> jsonRawData = jsonRawDynamicData;
       final Iterable keys = jsonRawData.keys;
@@ -88,11 +87,6 @@ class ModelGenerator {
   /// formatted JSON string. The dart code is not validated so invalid dart code
   /// might be returned
   String generateUnsafeDart(String rawJson) {
-    final jsonRawData = decodeJSON(rawJson);
-    final Node astNode = parse(rawJson, Settings());
-    final List<Warning> warnings =
-        _generateClassDefinition(_rootClassName, jsonRawData, '', astNode);
-    // after generating all classes, replace the omited similar classes.
     allClasses.forEach((ClassDefinition c) {
       final Iterable<String> fieldsKeys = c.fields.keys;
       fieldsKeys.forEach((String f) {
@@ -110,29 +104,14 @@ class ModelGenerator {
   /// generateDartClasses will generate all classes and append one after another
   /// in a single string. The [rawJson] param is assumed to be a properly
   /// formatted JSON string. If the generated dart is invalid it will throw an error.
-  static List<String> generateDartClasses({required String rawJson, required String className}) {
-    final ModelGenerator modelGenerator = ModelGenerator(className);
+  static List<String> generateDartClasses({
+    required String rawJson,
+  }) {
+    final ModelGenerator modelGenerator = ModelGenerator();
     final String unsafeDartCode = modelGenerator.generateUnsafeDart(rawJson);
     final DartFormatter formatter = DartFormatter();
     final String formattedDartCode =
         formatter.format(unsafeDartCode).replaceAll('class', 'new class');
     return formattedDartCode.split('new')..removeAt(0);
   }
-}
-
-void main() {
-  ModelGenerator.generateDartClasses(rawJson: '''{"count": 123,
-"results": [
-{
-"id": 0,
-"created_at": "2024-02-13T10:56:45.102Z",
-"updated_at": "2024-02-13T10:56:45.102Z",
-"text": "string",
-"log_type": 1,
-"handle": true,
-"category": "boost",
-"user": 0
-}
-]
-}''', className: 'test');
 }

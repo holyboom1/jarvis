@@ -1,16 +1,11 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:enigma/src/constants/app_constants.dart';
-import 'package:enigma/src/extension/string_extension.dart';
-import 'package:enigma/src/services/directory_service.dart';
-import 'package:enigma/src/services/file_service.dart';
-import 'package:enigma/src/services/input_service.dart';
-import 'package:enigma/src/services/script_service.dart';
-import 'package:enigma/src/validators/validator.dart';
-import 'package:mason_logger/mason_logger.dart';
-
-import '../lib/src/services/app_add_util.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
+import 'package:jarvis/src/extension/string_extension.dart';
+import 'package:jarvis/src/services/file_service.dart';
+import 'package:jarvis/src/services/input_service.dart';
+import 'package:jarvis/src/services/script_service.dart';
 
 Future<void> addUseCaseAction() async {
   // Check if the Dart version is in the correct range
@@ -19,8 +14,6 @@ Future<void> addUseCaseAction() async {
     return;
   }
 
-  // Create a new logger
-  final Logger logger = Logger();
   String domainDirName = 'domain';
   // Initialize the variables with default values
   String path = AppConstants.kCurrentPath;
@@ -42,7 +35,9 @@ Future<void> addUseCaseAction() async {
       });
     }
   }
-  path.endsWith('/') ? path : path = '$path/';
+  if (!path.endsWith('/')) {
+    path = '$path/';
+  }
   final String domainPath = '${AppConstants.kCurrentPath}/$domainDirName/';
 
   // Get project name from user input
@@ -89,14 +84,13 @@ Future<void> addUseCaseAction() async {
 
     ''';
 
-  final File usecaseFile =
-      File('${domainPath}/lib/usecases/${useCaseName.snakeCase()}_usecase.dart');
+  final File usecaseFile = File('$domainPath/lib/usecases/${useCaseName.snakeCase()}_usecase.dart');
 
   if (!usecaseFile.existsSync()) {
     usecaseFile.createSync(recursive: true);
     usecaseFile.writeAsStringSync(useCaseContent);
     await FileService.addToFile("export '${useCaseName.snakeCase()}_usecase.dart';",
-        '${domainPath}/lib/usecases/export_usecases.dart');
+        '$domainPath/lib/usecases/export_usecases.dart');
   }
 
   stdout.writeln(dcli.green('✅ Create Successfully!'));

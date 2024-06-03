@@ -1,10 +1,10 @@
 import 'dart:io';
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:enigma/src/constants/app_constants.dart';
-import 'package:enigma/src/services/directory_service.dart';
-import 'package:enigma/src/services/input_service.dart';
-import 'package:enigma/src/services/script_service.dart';
-import 'package:enigma/src/validators/validator.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
+import 'package:jarvis/src/services/directory_service.dart';
+import 'package:jarvis/src/services/input_service.dart';
+import 'package:jarvis/src/services/script_service.dart';
+import 'package:jarvis/src/validators/validator.dart';
 import 'package:mason_logger/mason_logger.dart';
 
 import '../lib/src/services/app_add_util.dart';
@@ -131,7 +131,7 @@ Future<void> createAction() async {
 
   await Process.run(
     'open',
-    ['-a', 'Android Studio', '$path/$projectName'],
+    <String>['-a', 'Android Studio', '$path/$projectName'],
   );
   stdout.writeln(dcli.green('✅ Finish Successfully!'));
 }

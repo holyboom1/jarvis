@@ -31,7 +31,7 @@ MergeableListType mergeableListType(List<dynamic> list) {
   ListType t = ListType.Null;
   bool isAmbigous = false;
   list.forEach((e) {
-    ListType? inferredType = getInferredType(e);
+    final ListType? inferredType = getInferredType(e);
     if (t != ListType.Null && t != inferredType) {
       isAmbigous = true;
     }
@@ -71,7 +71,7 @@ dynamic decodeJSON(String rawJson) {
 }
 
 WithWarning<Map> mergeObj(Map obj, Map other, String path) {
-  List<Warning> warnings = <Warning>[];
+  final List<Warning> warnings = <Warning>[];
   final Map clone = Map.from(obj);
   other.forEach((k, v) {
     if (clone[k] == null) {
@@ -88,15 +88,15 @@ WithWarning<Map> mergeObj(Map obj, Map other, String path) {
           warnings.add(newAmbiguousType('$path/$k'));
         }
       } else if (t == 'List') {
-        List l = List.from(clone[k]);
+        final List l = List.from(clone[k]);
         l.addAll(other[k]);
         final MergeableListType mergeableType = mergeableListType(l);
         if (ListType.Object == mergeableType.listType) {
-          WithWarning<Map> mergedList = mergeObjectList(l, '$path');
+          final WithWarning<Map> mergedList = mergeObjectList(l, path);
           warnings.addAll(mergedList.warnings);
           clone[k] = List.filled(1, mergedList.result);
         } else {
-          if (l.length > 0) {
+          if (l.isNotEmpty) {
             clone[k] = List.filled(1, l[0]);
           }
           if (mergeableType.isAmbigous) {
@@ -104,7 +104,7 @@ WithWarning<Map> mergeObj(Map obj, Map other, String path) {
           }
         }
       } else if (t == 'Class') {
-        WithWarning<Map> mergedObj = mergeObj(clone[k], other[k], '$path/$k');
+        final WithWarning<Map> mergedObj = mergeObj(clone[k], other[k], '$path/$k');
         warnings.addAll(mergedObj.warnings);
         clone[k] = mergedObj.result;
       }
@@ -114,8 +114,8 @@ WithWarning<Map> mergeObj(Map obj, Map other, String path) {
 }
 
 WithWarning<Map> mergeObjectList(List<dynamic> list, String path, [int idx = -1]) {
-  List<Warning> warnings = <Warning>[];
-  Map obj = Map();
+  final List<Warning> warnings = <Warning>[];
+  final Map obj = {};
   for (int i = 0; i < list.length; i++) {
     final toMerge = list[i];
     if (toMerge is Map) {
@@ -139,17 +139,17 @@ WithWarning<Map> mergeObjectList(List<dynamic> list, String path, [int idx = -1]
               warnings.add(newAmbiguousType(ambiguosTypePath));
             }
           } else if (t == 'List') {
-            List l = List.from(obj[k]);
+            final List l = List.from(obj[k]);
             final int beginIndex = l.length;
             l.addAll(v);
             // bug is here
             final MergeableListType mergeableType = mergeableListType(l);
             if (ListType.Object == mergeableType.listType) {
-              WithWarning<Map> mergedList = mergeObjectList(l, '$path[$i]/$k', beginIndex);
+              final WithWarning<Map> mergedList = mergeObjectList(l, '$path[$i]/$k', beginIndex);
               warnings.addAll(mergedList.warnings);
               obj[k] = List.filled(1, mergedList.result);
             } else {
-              if (l.length > 0) {
+              if (l.isNotEmpty) {
                 obj[k] = List.filled(1, l[0]);
               }
               if (mergeableType.isAmbigous) {
@@ -161,7 +161,7 @@ WithWarning<Map> mergeObjectList(List<dynamic> list, String path, [int idx = -1]
             if (idx != -1) {
               properIndex = i - idx;
             }
-            WithWarning<Map> mergedObj = mergeObj(
+            final WithWarning<Map> mergedObj = mergeObj(
               obj[k],
               v,
               '$path[$properIndex]/$k',
@@ -234,7 +234,7 @@ Node? navigateNode(Node? astNode, String path) {
   }
   if (astNode is ArrayNode) {
     final ArrayNode arrayNode = astNode;
-    final int? index = int.tryParse(path) ?? null;
+    final int? index = int.tryParse(path);
     if (index != null && arrayNode.children.length > index) {
       node = arrayNode.children[index];
     }

@@ -1,20 +1,18 @@
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dart_style/dart_style.dart';
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:enigma/src/constants/app_constants.dart';
-import 'package:enigma/src/extension/string_extension.dart';
-import 'package:enigma/src/json_to_dart/model_generator.dart';
-import 'package:enigma/src/model/new_entity.dart';
-import 'package:enigma/src/services/directory_service.dart';
-import 'package:enigma/src/services/file_service.dart';
-import 'package:enigma/src/services/input_service.dart';
-import 'package:enigma/src/services/script_service.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
+import 'package:jarvis/src/extension/string_extension.dart';
+import 'package:jarvis/src/json_to_dart/model_generator.dart';
+import 'package:jarvis/src/model/new_entity.dart';
+import 'package:jarvis/src/services/file_service.dart';
+import 'package:jarvis/src/services/input_service.dart';
+import 'package:jarvis/src/services/script_service.dart';
 import 'package:mason_logger/mason_logger.dart';
 
-Future<void> addEntityAction([bool debugMode = false]) async {
+Future<void> addEntityAction({bool debugMode = false}) async {
   // Check if the Dart version is in the correct range
   if (!await ScriptService.isDartVersionInRange('3.0.0', '4.0.0')) {
     stdout.writeln(dcli.red(AppConstants.kUpdateDartVersion));
@@ -40,8 +38,7 @@ Future<void> addEntityAction([bool debugMode = false]) async {
   }
 
   final List<String> generatedClass = ModelGenerator.generateDartClasses(
-    className: 'Main',
-    rawJson: '$jsonData',
+    rawJson: jsonData,
   );
 
   final List<NewEntity> models = <NewEntity>[];
@@ -113,7 +110,7 @@ Future<void> addEntityAction([bool debugMode = false]) async {
   }
 
   for (int i = 0; i < models.length; i++) {
-    NewEntity model = models[i];
+    final NewEntity model = models[i];
 
     final String entityContent = '''
       import 'package:freezed_annotation/freezed_annotation.dart';
@@ -210,13 +207,9 @@ Future<void> addEntityAction([bool debugMode = false]) async {
 
   stdout.writeln(dcli.green('✅ Create Successfully!'));
   stdout.writeln(dcli.green('✅ Start build!'));
-  await ScriptService.flutterBuild('$dataDirPath');
-  await ScriptService.flutterBuild('$domainDirPath');
+  await ScriptService.flutterBuild(dataDirPath);
+  await ScriptService.flutterBuild(domainDirPath);
   stdout.writeln(dcli.green('✅ Build Successfully!'));
 
   stdout.writeln(dcli.green('✅ Finish Successfully!'));
-}
-
-void main() {
-  addEntityAction(true);
 }

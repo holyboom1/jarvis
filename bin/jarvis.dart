@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart' as dcli;
-import 'package:enigma/src/constants/app_constants.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
 
 import 'add_entity_action.dart';
 import 'add_help_action.dart';

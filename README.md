@@ -30,7 +30,7 @@ export PATH="$PATH":"$HOME/.pub-cache/bin"
 ```
 
 ## Abailable Commands
-We are changing the command from `emigma` to `jarvis` for the package name.
+We are change the command from `emigma` to `jarvis` for the package name.
 
 Create a new Flutter project with the following command:
 ```sh

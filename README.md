@@ -36,7 +36,7 @@ Create a new Flutter project with the following command:
 ```sh
 jarvis create
 ```
-![create_readme.gif](doc%2Freadme%2Fcreate_readme.gif)
+![create_project.gif](doc%2Freadme%2Fcreate_project.gif)
 
 ______________________________________________
 Create a new module with the following command:

@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:dcli/dcli.dart';
-
-import '../constants/app_constants.dart';
+import 'package:jarvis/src/constants/app_constants.dart';
 import 'file_service.dart';
 
 /// This class provides functions to copy directories and delete files.
@@ -48,8 +47,7 @@ class DirectoryService {
         newPath =
             '${destinationDirectory.path}/${entity.uri.pathSegments[entity.uri.pathSegments.length - 2]}';
       } else {
-        newPath =
-            '${destinationDirectory.path}/${entity.uri.pathSegments.last}';
+        newPath = '${destinationDirectory.path}/${entity.uri.pathSegments.last}';
       }
       if (entity is Directory) {
         final Directory newDirectory = Directory(newPath);
@@ -92,8 +90,7 @@ class DirectoryService {
     }
   }
 
-  static Future<void> cloneRepository(
-      String repoUrl, String destinationPath) async {
+  static Future<void> cloneRepository(String repoUrl, String destinationPath) async {
     final ProcessResult processResult = await Process.run(
       'git',
       <String>[
@@ -107,8 +104,7 @@ class DirectoryService {
     if (processResult.exitCode == 0) {
       stdout.writeln(green('✅  Repository cloned successfully!'));
     } else {
-      stdout.writeln(
-          red('❌  Failed to clone repository: ${processResult.stderr}'));
+      stdout.writeln(red('❌  Failed to clone repository: ${processResult.stderr}'));
     }
   }
 }

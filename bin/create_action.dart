@@ -7,7 +7,7 @@ import 'package:jarvis/src/services/script_service.dart';
 import 'package:jarvis/src/validators/validator.dart';
 import 'package:mason_logger/mason_logger.dart';
 
-import '../lib/src/services/app_add_util.dart';
+import 'package:jarvis/lib/src/services/app_add_util.dart';
 
 Future<void> createAction() async {
   // Check if the Dart version is in the correct range

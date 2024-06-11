@@ -1,3 +1,28 @@
+<p align="center">
+  <a href="https://flutter.dev">
+    <img src="https://img.shields.io/badge/Platform-Dart-02569B?logo=dart"
+      alt="Platform" />
+  </a>
+  <a href="https://pub.dartlang.org/packages/jarvis">
+    <img src="https://img.shields.io/pub/v/jarvis.svg"
+      alt="Pub Package" />
+  </a>
+  <a href="https://github.com/holyboom1/jarvis/issues">
+    <img src="https://img.shields.io/github/workflow/status/holyboom1/jarvis/CI?logo=github"
+      alt="Build Status" />
+  </a>
+  <br>
+  <a href="https://codecov.io/gh/holyboom1/jarvis">
+    <img src="https://codecov.io/gh/holyboom1/jarvis/branch/master/graph/badge.svg"
+      alt="Codecov Coverage" />
+  </a>
+  <a href="https://opensource.org/licenses/MIT">
+    <img src="https://img.shields.io/github/license/holyboom1/advanced_media_picker?color=red"
+      alt="License: MIT" />
+  </a>
+</p>
+
+
 # Jarvis Modularity Assistant
 #### _Command-line interface (CLI) for generating a Flutter project_
 
@@ -69,8 +94,7 @@ jarvis entity
 ______________________________________________
 
 ## Plugins
-
-Dillinger is currently extended with the following plugins.
+This package is currently extended with the following plugins.
 Instructions on how to use them in your own application are linked below.
 
 | Plugin | README |
@@ -80,3 +104,4 @@ Instructions on how to use them in your own application are linked below.
 | args | https://pub.dev/packages/args |
 
 
+###### [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/C0C8Z5SA5)

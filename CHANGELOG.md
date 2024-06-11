@@ -1,4 +1,16 @@
-## 0.0.2
+## 0.0.4
+- Update README file.
+- Update CHANGELOG file.
+- Update pubspec.yaml file.
+
+
+## 0.0.3
+- Update README file.
+- Update CHANGELOG file.
+- Update pubspec.yaml file.
+
+
+- ## 0.0.2
 - Update README file.
 - Update CHANGELOG file.
 - Update pubspec.yaml file.

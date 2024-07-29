@@ -41,7 +41,8 @@ Future<void> addRepoAction() async {
   final String dataPath = '${AppConstants.kCurrentPath}/$dataDirName/';
 
   final String? repositoryName = InputService.getValidatedInput(
-    stdoutMessage: 'Enter a repository name (User without Repository postfix): ',
+    stdoutMessage:
+        'Enter a repository name (User without Repository postfix): ',
     errorMessage: AppConstants.kData,
   );
 
@@ -65,22 +66,24 @@ Future<void> addRepoAction() async {
         }
     ''';
 
-  final File repoAbsFile =
-      File('$domainPath/lib/repositories/${repositoryName.snakeCase()}_repository.dart');
-  final File repoImplFile =
-      File('$dataPath/lib/repositories/${repositoryName.snakeCase()}_repository_impl.dart');
+  final File repoAbsFile = File(
+      '$domainPath/lib/repositories/${repositoryName.snakeCase()}_repository.dart');
+  final File repoImplFile = File(
+      '$dataPath/lib/repositories/${repositoryName.snakeCase()}_repository_impl.dart');
 
   if (!repoAbsFile.existsSync()) {
     repoAbsFile.createSync(recursive: true);
     repoAbsFile.writeAsStringSync(repoAbsContent);
-    await FileService.addToFile("export '${repositoryName.snakeCase()}_repository.dart';",
+    await FileService.addToFile(
+        "export '${repositoryName.snakeCase()}_repository.dart';",
         '$domainPath/lib/repositories/repositories.dart');
   }
 
   if (!repoImplFile.existsSync()) {
     repoImplFile.createSync(recursive: true);
     repoImplFile.writeAsStringSync(repoImplContent);
-    await FileService.addToFile("export '${repositoryName.snakeCase()}_repository_impl.dart';",
+    await FileService.addToFile(
+        "export '${repositoryName.snakeCase()}_repository_impl.dart';",
         '$dataPath/lib/repositories/repositories.dart');
   }
 

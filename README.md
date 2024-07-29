@@ -32,7 +32,7 @@ It prompts the user for input and then creates a Flutter project with the given 
 - CoreUi
 - Data
 - Domain
-- Navigation
+- Navigation (AutoRouter support, GoRouter support)
 
 The user can also specify additional
 - Features

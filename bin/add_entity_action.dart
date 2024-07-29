@@ -100,7 +100,8 @@ Future<void> addEntityAction({bool debugMode = false}) async {
       newModel = newModel.copyWith(
         hiveTypeId: newModel.isNeedToAddHive
             ? InputService.getValidatedInput(
-                stdoutMessage: 'Enter Hive Type Id for ${models[i].className}: ',
+                stdoutMessage:
+                    'Enter Hive Type Id for ${models[i].className}: ',
                 errorMessage: AppConstants.kData,
                 functionValidator: (String? value) => value?.isNotEmpty,
               ).toInt()
@@ -180,28 +181,31 @@ Future<void> addEntityAction({bool debugMode = false}) async {
     ''';
     final DartFormatter formatter = DartFormatter();
 
-    final File entityFile = File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
-    final File mapperFile = File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
-    final File modelFile = File('${domainDirPath}lib/models/${model.fileName}_model.dart');
+    final File entityFile =
+        File('${dataDirPath}lib/entities/${model.fileName}_entity.dart');
+    final File mapperFile =
+        File('${dataDirPath}lib/mapper/${model.fileName}_mapper.dart');
+    final File modelFile =
+        File('${domainDirPath}lib/models/${model.fileName}_model.dart');
 
     if (!entityFile.existsSync()) {
       entityFile.createSync(recursive: true);
       entityFile.writeAsStringSync(formatter.format(entityContent));
-      await FileService.addToFile(
-          "export '${model.fileName}_entity.dart';", '${dataDirPath}lib/entities/entities.dart');
+      await FileService.addToFile("export '${model.fileName}_entity.dart';",
+          '${dataDirPath}lib/entities/entities.dart');
     }
     if (model.isNeedToCreateModel) {
       if (!mapperFile.existsSync()) {
         mapperFile.createSync(recursive: true);
         mapperFile.writeAsStringSync(formatter.format(mapperContent));
-        await FileService.addToFile(
-            "export '${model.fileName}_mapper.dart';", '${dataDirPath}lib/mapper/mappers.dart');
+        await FileService.addToFile("export '${model.fileName}_mapper.dart';",
+            '${dataDirPath}lib/mapper/mappers.dart');
       }
       if (!modelFile.existsSync()) {
         modelFile.createSync(recursive: true);
         modelFile.writeAsStringSync(formatter.format(modelContent));
-        await FileService.addToFile(
-            "export '${model.fileName}_model.dart';", '${domainDirPath}lib/models/models.dart');
+        await FileService.addToFile("export '${model.fileName}_model.dart';",
+            '${domainDirPath}lib/models/models.dart');
       }
     }
   }

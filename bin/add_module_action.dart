@@ -81,11 +81,26 @@ Future<void> addModuleAction() async {
     Directory(templatesModulePath).deleteSync(recursive: true);
   }
 
+  final bool isGoRouter = logger.chooseOne(
+    AppConstants.kGoRouter,
+    choices: <String?>[
+      AppConstants.kYes,
+      AppConstants.kNo,
+    ],
+  ).toBool();
+
   if (!templatesDirectory.existsSync()) {
-    await DirectoryService.cloneRepository(
-      AppConstants.kRemoteModuleTemplatesLink,
-      templatesModulePath,
-    );
+    if (isGoRouter) {
+      await DirectoryService.cloneRepository(
+        AppConstants.kRemoteGoModuleTemplatesLink,
+        templatesModulePath,
+      );
+    } else {
+      await DirectoryService.cloneRepository(
+        AppConstants.kRemoteModuleTemplatesLink,
+        templatesModulePath,
+      );
+    }
   }
   await DirectoryService.copy(
     sourcePath: templatesModulePath,

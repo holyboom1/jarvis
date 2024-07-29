@@ -15,19 +15,21 @@ class ModelGenerator {
 
   ModelGenerator(this._rootClassName, [this._privateFields = false]);
 
-  List<Warning> _generateClassDefinition(
-      String className, dynamic jsonRawDynamicData, String path, Node? astNode) {
+  List<Warning> _generateClassDefinition(String className,
+      dynamic jsonRawDynamicData, String path, Node? astNode) {
     final List<Warning> warnings = <Warning>[];
     if (jsonRawDynamicData is List) {
       final Node? node = navigateNode(astNode, '0');
-      _generateClassDefinition(className, jsonRawDynamicData[0], path, node!);
+      _generateClassDefinition(className, jsonRawDynamicData[0], path, node);
     } else {
       final Map<dynamic, dynamic> jsonRawData = jsonRawDynamicData;
       final Iterable keys = jsonRawData.keys;
-      final ClassDefinition classDefinition = ClassDefinition(className, _privateFields);
+      final ClassDefinition classDefinition =
+          ClassDefinition(className, _privateFields);
       keys.forEach((key) {
         final Node? node = navigateNode(astNode, key);
-        final TypeDefinition typeDef = TypeDefinition.fromDynamic(jsonRawData[key], node);
+        final TypeDefinition typeDef =
+            TypeDefinition.fromDynamic(jsonRawData[key], node);
         if (typeDef.name == 'Class') {
           typeDef.name = camelCase(key);
         }
@@ -62,21 +64,21 @@ class ModelGenerator {
             // into a single one
             dynamic toAnalyze;
             if (!dependency.typeDef.isAmbiguous) {
-              final WithWarning<Map> mergeWithWarning =
-                  mergeObjectList(jsonRawData[dependency.name], '$path/${dependency.name}');
+              final WithWarning<Map> mergeWithWarning = mergeObjectList(
+                  jsonRawData[dependency.name], '$path/${dependency.name}');
               toAnalyze = mergeWithWarning.result;
               warnings.addAll(mergeWithWarning.warnings);
             } else {
               toAnalyze = jsonRawData[dependency.name][0];
             }
             final Node? node = navigateNode(astNode, dependency.name);
-            warns = _generateClassDefinition(
-                dependency.className, toAnalyze, '$path/${dependency.name}', node);
+            warns = _generateClassDefinition(dependency.className, toAnalyze,
+                '$path/${dependency.name}', node);
           }
         } else {
           final Node? node = navigateNode(astNode, dependency.name);
-          warns = _generateClassDefinition(
-              dependency.className, jsonRawData[dependency.name], '$path/${dependency.name}', node);
+          warns = _generateClassDefinition(dependency.className,
+              jsonRawData[dependency.name], '$path/${dependency.name}', node);
         }
         warnings.addAll(warns);
       });
@@ -116,7 +118,8 @@ class ModelGenerator {
   /// generateDartClasses will generate all classes and append one after another
   /// in a single string. The [rawJson] param is assumed to be a properly
   /// formatted JSON string. If the generated dart is invalid it will throw an error.
-  static List<String> generateDartClasses({required String rawJson, required String className}) {
+  static List<String> generateDartClasses(
+      {required String rawJson, required String className}) {
     final ModelGenerator modelGenerator = ModelGenerator(className);
     final String unsafeDartCode = modelGenerator.generateUnsafeDart(rawJson);
     final DartFormatter formatter = DartFormatter();

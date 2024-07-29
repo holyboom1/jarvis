@@ -25,15 +25,16 @@ class FileService {
   ///
   /// Throws an exception if the file cannot be read or written to, or if
   /// [oldString] is not found in the file.
-  static Future<void> appendToFile(String oldString, String newString, String filePath) async {
+  static Future<void> appendToFile(
+      String oldString, String newString, String filePath) async {
     final File file = File(filePath);
     final String content = await file.readAsString();
     final int oldIndex = content.indexOf(oldString);
     if (oldIndex == -1) {
       throw Exception(red('❌ Could not find the old string in the file'));
     }
-    final String newContent = content.replaceRange(
-        oldIndex + oldString.length, oldIndex + oldString.length, '\n$newString');
+    final String newContent = content.replaceRange(oldIndex + oldString.length,
+        oldIndex + oldString.length, '\n$newString');
     await file.writeAsString(newContent);
   }
 

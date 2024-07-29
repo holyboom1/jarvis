@@ -1,4 +1,3 @@
-
 import 'file_service.dart';
 
 class AppRenameUtil {

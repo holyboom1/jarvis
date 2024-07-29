@@ -24,7 +24,8 @@ class InputService {
     bool? Function(String? message)? functionValidator,
   }) {
     stdout.write(stdoutMessage);
-    String? message = FileService.removeTrailingComma(stdin.readLineSync()?.trim());
+    String? message =
+        FileService.removeTrailingComma(stdin.readLineSync()?.trim());
     while (!(functionValidator?.call(message) ?? true)) {
       if (errorMessage != null) {
         stdout.write(red('❌  $errorMessage'));

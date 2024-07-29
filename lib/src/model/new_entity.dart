@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 
 class NewEntity extends Equatable {
@@ -47,7 +46,8 @@ class NewEntity extends Equatable {
       isNeedToCreateModel: isNeedToCreateModel ?? this.isNeedToCreateModel,
       isNeedToAddHive: isNeedToAddHive ?? this.isNeedToAddHive,
       rawClass: rawClass ?? this.rawClass,
-      genClassName: this.rawClass.isNotEmpty ? this.rawClass.trim().split(' ')[1] : '',
+      genClassName:
+          this.rawClass.isNotEmpty ? this.rawClass.trim().split(' ')[1] : '',
       entityContent: entityContent ?? this.entityContent,
       mapperContent: mapperContent ?? this.mapperContent,
       modelContent: modelContent ?? this.modelContent,
@@ -106,7 +106,8 @@ class ClassField extends Equatable {
 
   factory ClassField.fromString(String field) {
     final List<String> fieldList = field.split(' ');
-    final ({DartTypes mainType, DartTypes? subType}) type = DartTypes.fromString(fieldList[0]);
+    final ({DartTypes mainType, DartTypes? subType}) type =
+        DartTypes.fromString(fieldList[0]);
     String? subName;
     if (type.subType != null) {
       subName = fieldList[0].split('<')[1].split('>')[0];
@@ -143,8 +144,10 @@ class ClassField extends Equatable {
     } else if (type == DartTypes.listCustom) {
       final NewEntity subEntity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == subName);
-      defaultVal = 'const <${subEntity.className}${isEntity ? 'Entity' : 'Model'}>[]';
-      classType = 'List<${subEntity.className}${isEntity ? 'Entity' : 'Model'}> $name';
+      defaultVal =
+          'const <${subEntity.className}${isEntity ? 'Entity' : 'Model'}>[]';
+      classType =
+          'List<${subEntity.className}${isEntity ? 'Entity' : 'Model'}> $name';
     } else if (type == DartTypes.custom) {
       final NewEntity entity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == customType);
@@ -167,7 +170,8 @@ class ClassField extends Equatable {
         subType != DartTypes.custom &&
         subType != DartTypes.listCustom &&
         subType != null) {
-      mapperValue = '<${subType!.value}>[...${isEntity ? 'entity' : 'model'}.$name]';
+      mapperValue =
+          '<${subType!.value}>[...${isEntity ? 'entity' : 'model'}.$name]';
     } else if (type == DartTypes.listCustom) {
       final NewEntity subEntity =
           otherModels.firstWhere((NewEntity e) => e.genClassName == subName);
@@ -209,7 +213,10 @@ enum DartTypes {
   static ({DartTypes mainType, DartTypes? subType}) fromString(String type) {
     if (type.startsWith('List<')) {
       final String subType = type.split('<')[1].split('>')[0];
-      return (mainType: DartTypes.listCustom, subType: DartTypes.fromString(subType).mainType);
+      return (
+        mainType: DartTypes.listCustom,
+        subType: DartTypes.fromString(subType).mainType
+      );
     }
     switch (type) {
       case 'int':

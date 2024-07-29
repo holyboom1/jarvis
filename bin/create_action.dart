@@ -71,7 +71,6 @@ Future<void> createAction() async {
     errorMessage: AppConstants.kData,
   );
 
-  //Create project with a given name
   final ProcessResult result = Process.runSync(
     'mkdir',
     <String>['-p', '$path/$projectName'],
@@ -93,16 +92,38 @@ Future<void> createAction() async {
     Directory(templatesPath).deleteSync(recursive: true);
   }
 
-  if (!templatesDirectory.existsSync()) {
-    await DirectoryService.cloneRepository(
-      AppConstants.kRemoteTemplatesLink,
-      templatesPath,
+  final bool isGoRouter = logger.chooseOne(
+        'Is need to use GoRouter ?',
+        choices: [
+          true,
+          false,
+        ],
+      ) ??
+      true;
+  print('#Print# : ${isGoRouter}');
+  if (isGoRouter) {
+    if (!templatesDirectory.existsSync()) {
+      await DirectoryService.cloneRepository(
+        AppConstants.kRemoteGoTemplatesLink,
+        templatesPath,
+      );
+    }
+    await DirectoryService.copy(
+      sourcePath: templatesPath,
+      destinationPath: '$path/$projectName',
+    );
+  } else {
+    if (!templatesDirectory.existsSync()) {
+      await DirectoryService.cloneRepository(
+        AppConstants.kRemoteTemplatesLink,
+        templatesPath,
+      );
+    }
+    await DirectoryService.copy(
+      sourcePath: templatesPath,
+      destinationPath: '$path/$projectName',
     );
   }
-  await DirectoryService.copy(
-    sourcePath: templatesPath,
-    destinationPath: '$path/$projectName',
-  );
 
   final Directory gitDir = Directory('$path/$projectName/.git/');
   if (gitDir.existsSync()) {

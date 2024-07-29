@@ -1,3 +1,7 @@
+## 0.0.6
+- Minor fixes.
+
+
 ## 0.0.5
 - Added GoRouter support.
 

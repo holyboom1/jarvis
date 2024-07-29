@@ -1,6 +1,6 @@
 name: jarvis
 description: Command-line interface (CLI) for generating a Flutter project
-version: 0.0.5
+version: 0.0.6
 homepage: https://github.com/holyboom1/jarvis.git
 
 platforms:

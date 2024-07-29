@@ -128,6 +128,7 @@ Future<void> addModuleAction() async {
     stdout.writeln(dcli.green('✅ Start adding to router!'));
     final String navigationPath = '${path}navigation/';
     await AppRenameUtil.addModuleToRouter(
+      isGoRouter: isGoRouter,
       moduleName: moduleName ?? 'temp',
       path: navigationPath,
       modulePath: '$featurePath/$moduleName/',

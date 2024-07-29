@@ -218,6 +218,7 @@ class AppRenameUtil {
   }
 
   static Future<void> addModuleToRouter({
+    required bool isGoRouter,
     required String moduleName,
     required String path,
     required String modulePath,
@@ -244,16 +245,33 @@ class AppRenameUtil {
     } else {
       moduleClassName = moduleName[0].toUpperCase() + moduleName.substring(1);
     }
-    await FileService.appendToFile(
-      'modules: <Type>[',
-      ' \n${moduleClassName}Module,\n',
-      '$path/lib/src/app_router/app_router.dart',
-    );
-    await FileService.appendToFile(
-      'final List<AutoRoute> routes = <AutoRoute>[',
-      '   AutoRoute(\n    page: ${moduleClassName}Route.page,\n   ),',
-      '$path/lib/src/app_router/app_router.dart',
-    );
+
+    final String mainAppPath = path.replaceAll('navigation/', '');
+    if (isGoRouter) {
+      await FileService.appendToFile(
+        'class RouterConstants {',
+        '  static const String $moduleName = "/$moduleName";',
+        '$mainAppPath/core/lib/constants/route_constants.dart',
+      );
+
+      await FileService.appendToFile(
+        'routes: <RouteBase>[',
+        'GoRoute(path: RouterConstants.$moduleName,  name: RouterConstants.$moduleName, builder: (BuildContext context, GoRouterState state) => ${moduleClassName}Screen(),),',
+        '$path/lib/src/app_router/app_router.dart',
+      );
+    } else {
+      await FileService.appendToFile(
+        'modules: <Type>[',
+        ' \n${moduleClassName}Module,\n',
+        '$path/lib/src/app_router/app_router.dart',
+      );
+      await FileService.appendToFile(
+        'final List<AutoRoute> routes = <AutoRoute>[',
+        '   AutoRoute(\n    page: ${moduleClassName}Route.page,\n   ),',
+        '$path/lib/src/app_router/app_router.dart',
+      );
+    }
+
     await FileService.appendToFile(
       "import 'services/route_logger.dart';",
       "export 'package:$moduleName/$moduleName.dart';",

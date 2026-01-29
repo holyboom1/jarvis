@@ -44,6 +44,9 @@ enum TemplateType {
   final String moduleUrl;
   final bool isGoRouter;
 
+  /// Returns true if this is a Jarvis 2.0 template (uses workspace, no android/ios folders in root)
+  bool get isJarvis2 => this == jarvis2AutoRoute || this == jarvis2GoRouter;
+
   static TemplateType fromDisplayName(String displayName) {
     return TemplateType.values.firstWhere(
       (TemplateType type) => type.displayName == displayName,

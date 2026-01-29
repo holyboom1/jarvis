@@ -126,12 +126,16 @@ Future<void> createAction() async {
     fileName: 'widget_test.dart',
   );
 
-  await AppRenameUtil.changeAppBundleAndName(
-    androidBundleId: appAndroidBundle ?? 'com.example.app',
-    iosBundleId: appIOSBundle ?? 'com.example.app',
-    appName: appName ?? 'App',
-    path: '$path/$projectName/',
-  );
+  // Only update bundle IDs for standard templates (they have android/ios folders)
+  // Jarvis 2.0 templates use workspace structure without native folders in root
+  if (!selectedTemplate.isJarvis2) {
+    await AppRenameUtil.changeAppBundleAndName(
+      androidBundleId: appAndroidBundle ?? 'com.example.app',
+      iosBundleId: appIOSBundle ?? 'com.example.app',
+      appName: appName ?? 'App',
+      path: '$path/$projectName/',
+    );
+  }
 
   logger.info('Replacing placeholders in project files...');
   logger.detail('Project path: $path/$projectName/');

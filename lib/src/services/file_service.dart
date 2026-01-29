@@ -15,7 +15,18 @@ class FileService {
     required String filePath,
   }) async {
     final File file = File(filePath);
+
+    if (!file.existsSync()) {
+      throw Exception(red('❌ File not found: $filePath'));
+    }
+
     String content = await file.readAsString();
+
+    if (!content.contains(oldString)) {
+      print(yellow('⚠️  String "$oldString" not found in $filePath'));
+      return;
+    }
+
     content = content.replaceAll(oldString, newString);
     await file.writeAsString(content);
   }

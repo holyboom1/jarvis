@@ -1,3 +1,10 @@
+## 0.0.7
+- Added Jarvis 2.0 template support with Clean Architecture and Flutter Workspace.
+- Added Jarvis 2.0 GoRouter variant (4th template option).
+- Added TemplateType enum for type-safe template selection.
+- Added auto-detection of router type (AutoRoute/GoRouter) for Jarvis 2.0 projects when adding modules.
+- Improved code quality by replacing string comparisons with enum-based selection.
+
 ## 0.0.6
 - Minor fixes.
 

@@ -133,12 +133,18 @@ Future<void> createAction() async {
     path: '$path/$projectName/',
   );
 
+  logger.info('Replacing placeholders in project files...');
+  logger.detail('Project path: $path/$projectName/');
+  logger.detail('Project name: ${projectName ?? "App"}');
+
   await AppRenameUtil.changeProjectName(
     projectName: projectName ?? 'App',
     projectDescription: projectDescription ?? '',
     jiraPrefix: jiraProjectCode ?? 'APP',
     path: '$path/$projectName/',
   );
+
+  logger.info('✅ Placeholders replaced successfully');
 
   await Process.run(
     'open',

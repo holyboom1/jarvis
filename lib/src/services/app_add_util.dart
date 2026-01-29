@@ -63,35 +63,40 @@ class AppRenameUtil {
     required String jiraPrefix,
     required String path,
   }) async {
-    await FileService.updateFileContent(
-      oldString: _projectNameKey,
-      newString: projectName,
-      filePath: path + _readmePath,
-    );
+    try {
+      await FileService.updateFileContent(
+        oldString: _projectNameKey,
+        newString: projectName,
+        filePath: path + _readmePath,
+      );
 
-    await FileService.updateFileContent(
-      oldString: _projectNameKey,
-      newString: projectName,
-      filePath: path + _pubspecPath,
-    );
+      await FileService.updateFileContent(
+        oldString: _projectNameKey,
+        newString: projectName,
+        filePath: path + _pubspecPath,
+      );
 
-    await FileService.updateFileContent(
-      oldString: _projectDescriptionKey,
-      newString: projectDescription,
-      filePath: path + _readmePath,
-    );
+      await FileService.updateFileContent(
+        oldString: _projectDescriptionKey,
+        newString: projectDescription,
+        filePath: path + _readmePath,
+      );
 
-    await FileService.updateFileContent(
-      oldString: _projectDescriptionKey,
-      newString: projectDescription,
-      filePath: path + _pubspecPath,
-    );
+      await FileService.updateFileContent(
+        oldString: _projectDescriptionKey,
+        newString: projectDescription,
+        filePath: path + _pubspecPath,
+      );
 
-    await FileService.updateFileContent(
-      oldString: _projectJiraKey,
-      newString: jiraPrefix.toUpperCase(),
-      filePath: path + _readmePath,
-    );
+      await FileService.updateFileContent(
+        oldString: _projectJiraKey,
+        newString: jiraPrefix.toUpperCase(),
+        filePath: path + _readmePath,
+      );
+    } catch (e) {
+      print('❌ Error in changeProjectName: $e');
+      rethrow;
+    }
   }
 
   static Future<void> changeModuleName({

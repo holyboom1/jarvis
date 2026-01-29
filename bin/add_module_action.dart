@@ -93,12 +93,23 @@ Future<void> addModuleAction() async {
   }
 
   String moduleTemplateUrl;
+  bool isGoRouter = false;
 
   if (isJarvis2Project) {
-    moduleTemplateUrl = AppConstants.kRemoteJarvis2ModuleTemplatesLink;
-    logger.info('✅ Detected Jarvis 2.0 project, using Jarvis 2.0 module template');
+    // Detect router type for Jarvis 2.0 projects
+    final File navigationPubspecFile = File('${path}navigation/pubspec.yaml');
+    if (navigationPubspecFile.existsSync()) {
+      final String navPubspecContent = navigationPubspecFile.readAsStringSync();
+      isGoRouter = navPubspecContent.contains('go_router:');
+    }
+
+    moduleTemplateUrl = isGoRouter
+        ? AppConstants.kRemoteJarvis2GoRouterModuleTemplatesLink
+        : AppConstants.kRemoteJarvis2ModuleTemplatesLink;
+
+    logger.info('✅ Detected Jarvis 2.0 project (${isGoRouter ? 'GoRouter' : 'AutoRoute'}), using Jarvis 2.0 module template');
   } else {
-    final bool isGoRouter = logger.chooseOne(
+    isGoRouter = logger.chooseOne(
       AppConstants.kGoRouter,
       choices: <String?>[
         AppConstants.kYes,

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dcli/dcli.dart' as dcli;
 import 'package:jarvis/src/constants/app_constants.dart';
+import 'package:jarvis/src/enums/template_type.dart';
 import 'package:jarvis/src/services/app_add_util.dart';
 import 'package:jarvis/src/services/directory_service.dart';
 import 'package:jarvis/src/services/input_service.dart';
@@ -94,24 +95,14 @@ Future<void> createAction() async {
 
   final String? templateChoice = logger.chooseOne(
         'Choose template:',
-        choices: <String>[
-          '1) Standard (AutoRoute)',
-          '2) Standard (GoRouter)',
-          '3) Jarvis 2.0 (AutoRoute + Clean Architecture + Workspace)',
-        ],
+        choices: TemplateType.displayNames,
       ) ??
-      '1) Standard (AutoRoute)';
+      TemplateType.standardAutoRoute.displayName;
 
-  String templateUrl;
-  if (templateChoice.startsWith('1)')) {
-    templateUrl = AppConstants.kRemoteTemplatesLink;
-  } else if (templateChoice.startsWith('2)')) {
-    templateUrl = AppConstants.kRemoteGoTemplatesLink;
-  } else {
-    templateUrl = AppConstants.kRemoteJarvis2AutoRouteTemplatesLink;
-  }
+  final TemplateType selectedTemplate = TemplateType.fromDisplayName(templateChoice);
+  final String templateUrl = selectedTemplate.templateUrl;
 
-  logger.info('Selected template: $templateChoice');
+  logger.info('Selected template: ${selectedTemplate.displayName}');
 
   if (!templatesDirectory.existsSync()) {
     await DirectoryService.cloneRepository(

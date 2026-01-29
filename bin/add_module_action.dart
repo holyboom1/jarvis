@@ -81,26 +81,41 @@ Future<void> addModuleAction() async {
     Directory(templatesModulePath).deleteSync(recursive: true);
   }
 
-  final bool isGoRouter = logger.chooseOne(
-    AppConstants.kGoRouter,
-    choices: <String?>[
-      AppConstants.kYes,
-      AppConstants.kNo,
-    ],
-  ).toBool();
+  // Detect if this is a Jarvis 2.0 project
+  final File pubspecFile = File('${path}pubspec.yaml');
+  bool isJarvis2Project = false;
+
+  if (pubspecFile.existsSync()) {
+    final String pubspecContent = pubspecFile.readAsStringSync();
+    if (pubspecContent.contains('workspace:')) {
+      isJarvis2Project = true;
+    }
+  }
+
+  String moduleTemplateUrl;
+
+  if (isJarvis2Project) {
+    moduleTemplateUrl = AppConstants.kRemoteJarvis2ModuleTemplatesLink;
+    logger.info('✅ Detected Jarvis 2.0 project, using Jarvis 2.0 module template');
+  } else {
+    final bool isGoRouter = logger.chooseOne(
+      AppConstants.kGoRouter,
+      choices: <String?>[
+        AppConstants.kYes,
+        AppConstants.kNo,
+      ],
+    ).toBool();
+
+    moduleTemplateUrl = isGoRouter
+        ? AppConstants.kRemoteGoModuleTemplatesLink
+        : AppConstants.kRemoteModuleTemplatesLink;
+  }
 
   if (!templatesDirectory.existsSync()) {
-    if (isGoRouter) {
-      await DirectoryService.cloneRepository(
-        AppConstants.kRemoteGoModuleTemplatesLink,
-        templatesModulePath,
-      );
-    } else {
-      await DirectoryService.cloneRepository(
-        AppConstants.kRemoteModuleTemplatesLink,
-        templatesModulePath,
-      );
-    }
+    await DirectoryService.cloneRepository(
+      moduleTemplateUrl,
+      templatesModulePath,
+    );
   }
   await DirectoryService.copy(
     sourcePath: templatesModulePath,

@@ -104,6 +104,10 @@ class AppConstants {
       'https://github.com/youRaSoftware/jarvis_2.0_autoroute';
   static const String kRemoteJarvis2ModuleTemplatesLink =
       'https://github.com/youRaSoftware/jarvis_2.0_module';
+  static const String kRemoteJarvis2GoRouterTemplatesLink =
+      'https://github.com/youRaSoftware/jarvis_2.0_gorouter';
+  static const String kRemoteJarvis2GoRouterModuleTemplatesLink =
+      'https://github.com/youRaSoftware/jarvis_2.0_gorouter_module';
 
   static const String kLogo = '''
     ░▒▓█▓▒░░▒▓██████▓▒░░▒▓███████▓▒░░▒▓█▓▒░░▒▓█▓▒░▒▓█▓▒░░▒▓███████▓▒░ 

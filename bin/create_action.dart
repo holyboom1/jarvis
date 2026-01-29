@@ -92,38 +92,37 @@ Future<void> createAction() async {
     Directory(templatesPath).deleteSync(recursive: true);
   }
 
-  final bool isGoRouter = logger.chooseOne(
-        'Is need to use GoRouter ?',
-        choices: [
-          true,
-          false,
+  final String? templateChoice = logger.chooseOne(
+        'Choose template:',
+        choices: <String>[
+          '1) Standard (AutoRoute)',
+          '2) Standard (GoRouter)',
+          '3) Jarvis 2.0 (AutoRoute + Clean Architecture + Workspace)',
         ],
       ) ??
-      true;
-  print('#Print# : ${isGoRouter}');
-  if (isGoRouter) {
-    if (!templatesDirectory.existsSync()) {
-      await DirectoryService.cloneRepository(
-        AppConstants.kRemoteGoTemplatesLink,
-        templatesPath,
-      );
-    }
-    await DirectoryService.copy(
-      sourcePath: templatesPath,
-      destinationPath: '$path/$projectName',
-    );
+      '1) Standard (AutoRoute)';
+
+  String templateUrl;
+  if (templateChoice.startsWith('1)')) {
+    templateUrl = AppConstants.kRemoteTemplatesLink;
+  } else if (templateChoice.startsWith('2)')) {
+    templateUrl = AppConstants.kRemoteGoTemplatesLink;
   } else {
-    if (!templatesDirectory.existsSync()) {
-      await DirectoryService.cloneRepository(
-        AppConstants.kRemoteTemplatesLink,
-        templatesPath,
-      );
-    }
-    await DirectoryService.copy(
-      sourcePath: templatesPath,
-      destinationPath: '$path/$projectName',
+    templateUrl = AppConstants.kRemoteJarvis2AutoRouteTemplatesLink;
+  }
+
+  logger.info('Selected template: $templateChoice');
+
+  if (!templatesDirectory.existsSync()) {
+    await DirectoryService.cloneRepository(
+      templateUrl,
+      templatesPath,
     );
   }
+  await DirectoryService.copy(
+    sourcePath: templatesPath,
+    destinationPath: '$path/$projectName',
+  );
 
   final Directory gitDir = Directory('$path/$projectName/.git/');
   if (gitDir.existsSync()) {

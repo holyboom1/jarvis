@@ -93,7 +93,7 @@ Future<void> createAction() async {
     Directory(templatesPath).deleteSync(recursive: true);
   }
 
-  final String? templateChoice = logger.chooseOne(
+  final String templateChoice = logger.chooseOne(
         'Choose template:',
         choices: TemplateType.displayNames,
       ) ??

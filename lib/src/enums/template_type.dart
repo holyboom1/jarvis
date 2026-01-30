@@ -17,14 +17,14 @@ enum TemplateType {
   ),
   jarvis2AutoRoute(
     id: 3,
-    displayName: '3) Jarvis 2.0 (AutoRoute + Clean Architecture + Workspace)',
+    displayName: '3) Jarvis 2.0 AutoRoute',
     templateUrl: AppConstants.kRemoteJarvis2AutoRouteTemplatesLink,
     moduleUrl: AppConstants.kRemoteJarvis2ModuleTemplatesLink,
     isGoRouter: false,
   ),
   jarvis2GoRouter(
     id: 4,
-    displayName: '4) Jarvis 2.0 (GoRouter + Clean Architecture + Workspace)',
+    displayName: '4) Jarvis 2.0 GoRouter',
     templateUrl: AppConstants.kRemoteJarvis2GoRouterTemplatesLink,
     moduleUrl: AppConstants.kRemoteJarvis2GoRouterModuleTemplatesLink,
     isGoRouter: true,

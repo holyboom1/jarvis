@@ -54,7 +54,28 @@ If the one not in your path please add this command to your shell's config file 
 export PATH="$PATH":"$HOME/.pub-cache/bin"
 ```
 
-## Abailable Commands
+## Available Templates
+
+Jarvis supports 4 project templates:
+
+1. **Standard (AutoRoute)** - Traditional Flutter project with AutoRoute navigation
+2. **Standard (GoRouter)** - Traditional Flutter project with GoRouter navigation
+3. **Jarvis 2.0 AutoRoute** - Clean Architecture + Flutter Workspace + AutoRoute
+4. **Jarvis 2.0 GoRouter** - Clean Architecture + Flutter Workspace + GoRouter
+
+### Jarvis 2.0 Templates
+
+New Jarvis 2.0 templates feature:
+- ✅ **Clean Architecture** with strict layer separation
+- ✅ **Flutter Workspace** with 6 modular packages (core, core_ui, domain, data, features, navigation)
+- ✅ **BLoC/Cubit** state management pattern
+- ✅ **Freezed** models and DTOs
+- ✅ **GetIt** dependency injection
+- ✅ **go_router ^17.0.1** or **auto_route** navigation
+- ✅ **Flavours** support (dev, staging, prod) with .run configs
+- ✅ Design tokens system for theming
+
+## Available Commands
 Create a new Flutter project with the following command:
 ```sh
 jarvis create
